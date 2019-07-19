@@ -23,7 +23,7 @@ namespace Trestlebridge.Models.Facilities
 
         private List<Chicken> _animals = new List<Chicken>();
 
-        public int Capacity
+        public double Capacity
         {
             get
             {
