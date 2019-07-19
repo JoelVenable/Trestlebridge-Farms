@@ -13,6 +13,9 @@ namespace Trestlebridge.Models.Facilities
 
         private Guid _id = Guid.NewGuid();
 
+        public string Name { get; set; }
+
+
         private List<Chicken> _animals = new List<Chicken>();
 
         public double Capacity
@@ -38,7 +41,7 @@ namespace Trestlebridge.Models.Facilities
             StringBuilder output = new StringBuilder();
             string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
 
-            output.Append($"Chicken House {shortId} has {this._animals.Count} animals\n");
+            output.Append($"Chicken House {Name} has {this._animals.Count} animals\n");
             this._animals.ForEach(a => output.Append($"   {a}\n"));
 
             return output.ToString();

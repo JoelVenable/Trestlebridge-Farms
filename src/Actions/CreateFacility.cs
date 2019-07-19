@@ -36,15 +36,18 @@ namespace Trestlebridge.Actions
                 //     farm.AddPlowedField(new PlowedField());
                 //     break;
                 case 3:
-                    farm.AddChickenHouse(new ChickenHouse());
+                    string ChickenHouseName = Program.GetInput(
+                        "Adding a new Grazing Field to the farm.  What would you like to call it?"
+                        );
+                    farm.AddChickenHouse(new ChickenHouse()
+                    {
+                        Name = ChickenHouseName
+                    });
+                    Program.ShowMessage($"Successfully added Grazing Field: {ChickenHouseName}.");
                     break;
                 default:
                     break;
             }
         }
-
-        
-
-
     }
 }
