@@ -43,12 +43,12 @@ namespace Trestlebridge.Actions
 
                 //Duck House 
                 case 4:
-                    var DuckHouseName = Program.GetInput("Adding a new Grazing Field to the farm.  What would you like to call it?");
+                    var DuckHouseName = Program.GetInput("Adding a new Duck House to the farm.  What would you like to call it?");
                     farm.AddDuckHouse(new DuckHouse()
                     {
                         Name = DuckHouseName
                     });
-                    Program.ShowMessage($"Successfully added Grazing Field: {DuckHouseName}.");
+                    Program.ShowMessage($"Successfully added Duck House: {DuckHouseName}.");
 
                     break;
                 default:
