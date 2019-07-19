@@ -25,38 +25,39 @@ namespace Trestlebridge.Actions
             switch (Int32.Parse(input))
             {
                 case 1:
-                    string name = Program.GetInput(
+                    string GrazingFieldName = Program.GetInput(
                         "Adding a new Grazing Field to the farm.  What would you like to call it?"
                         );
                     farm.AddGrazingField(new GrazingField()
                     {
-                        Name = name,
+                        Name = GrazingFieldName,
                     });
-                    Program.ShowMessage($"Successfully added Grazing Field: {name}.");
+                    Program.ShowMessage($"Successfully added Grazing Field: {GrazingFieldName}.");
                     break;
                 case 2:
-                    farm.AddPlowedField(new PlowedField());
+                    // farm.AddPlowedField(new PlowedField());
+                    break;
+
+                case 3:
                     break;
 
                 //Duck House 
                 case 4:
-                    Console.WriteLine("Adding a new Duck House to the farm. What would you like to call it?");
-                    Console.WriteLine();
-                    Console.Write(">");
-
-
+                    var DuckHouseName = Program.GetInput("Adding a new Grazing Field to the farm.  What would you like to call it?");
                     farm.AddDuckHouse(new DuckHouse()
                     {
-                        Name = name;
-            });
-            break;
-            default:
+                        Name = DuckHouseName
+                    });
+                    Program.ShowMessage($"Successfully added Grazing Field: {DuckHouseName}.");
+
                     break;
+                default:
+                    break;
+            }
+
+
+
+
         }
-
-        
-
-
     }
-}
 }
