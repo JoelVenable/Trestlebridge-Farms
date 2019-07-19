@@ -14,7 +14,7 @@ namespace Trestlebridge.Actions
 
             for (int i = 0; i < farm.NaturalFields.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. Natural Field");
+                Console.WriteLine($"{i + 1}. Natural Field: {farm.NaturalFields[i].Name}");
             }
 
             Console.WriteLine();
@@ -23,7 +23,7 @@ namespace Trestlebridge.Actions
             Console.WriteLine($"Place the seed where?");
 
             Console.Write("> ");
-            int choice = Int32.Parse(Console.ReadLine());
+            int choice = Int32.Parse(Console.ReadLine()) - 1;
 
             farm.NaturalFields[choice].AddResource(seed);
 

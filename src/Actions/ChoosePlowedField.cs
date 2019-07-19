@@ -14,7 +14,7 @@ namespace Trestlebridge.Actions
 
             for (int i = 0; i < farm.PlowedFields.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. Plowed Field");
+                Console.WriteLine($"{i + 1}. Plowed Field: {farm.PlowedFields[i].Name}");
             }
 
             Console.WriteLine();
@@ -23,7 +23,7 @@ namespace Trestlebridge.Actions
             Console.WriteLine($"Place the seed where?");
 
             Console.Write("> ");
-            int choice = Int32.Parse(Console.ReadLine());
+            int choice = Int32.Parse(Console.ReadLine()) - 1;
 
             farm.PlowedFields[choice].AddResource(seed);
 

@@ -32,13 +32,13 @@ namespace Trestlebridge.Actions
                     {
                         Name = GrazingFieldName,
                     });
-                    Program.ShowMessage($"Successfully added Grazing Field: {PlowedFieldName}.");
+                    Program.ShowMessage($"Successfully added Grazing Field: {GrazingFieldName}.");
                     break;
                 case 2:
                     string PlowedFieldName = Program.GetInput(
                         "Adding a new Plowed Field to the farm.  What would you like to call it?"
                         );
-                    farm.AddGrazingField(new PlowedField()
+                    farm.AddPlowedField(new PlowedField()
                     {
                         Name = PlowedFieldName,
                     });
@@ -47,7 +47,7 @@ namespace Trestlebridge.Actions
                     string NaturalFieldName = Program.GetInput(
                           "Adding a new Natural Field to the farm.  What would you like to call it?"
                           );
-                    farm.AddGrazingField(new NaturalField()
+                    farm.AddNaturalField(new NaturalField()
                     {
                         Name = NaturalFieldName,
                     });
