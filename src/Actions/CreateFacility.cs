@@ -18,11 +18,22 @@ namespace Trestlebridge.Actions {
             switch (Int32.Parse(input))
             {
                 case 1:
-                    farm.AddGrazingField(new GrazingField());
+                    string name = Program.GetInput(
+                        "Adding a new Grazing Field to the farm.  What would you like to call it?"
+                        );
+                    farm.AddGrazingField(new GrazingField()
+                    {
+                        Name = name,
+                    });
+                    Program.ShowMessage($"Successfully added Grazing Field: {name}.");
                     break;
                 default:
                     break;
             }
         }
+
+        
+
+
     }
 }
