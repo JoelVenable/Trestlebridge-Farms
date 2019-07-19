@@ -28,6 +28,16 @@ namespace Trestlebridge
             System.Threading.Thread.Sleep(2000);
         }
 
+        public static string GetInput(string message)
+        {
+            Console.Clear();
+            Program.DisplayBanner();
+            Console.WriteLine(message);
+            Console.WriteLine();
+            Console.Write("> ");
+            return Console.ReadLine();
+        }
+
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.White;

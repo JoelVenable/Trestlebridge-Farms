@@ -18,7 +18,9 @@ namespace Trestlebridge.Actions {
             switch (Int32.Parse(input))
             {
                 case 1:
-                    string name = PromptForFacilityName("Grazing Field");
+                    string name = Program.GetInput(
+                        "Adding a new Grazing Field to the farm.  What would you like to call it?"
+                        );
                     farm.AddGrazingField(new GrazingField()
                     {
                         Name = name,
@@ -30,15 +32,7 @@ namespace Trestlebridge.Actions {
             }
         }
 
-        static string PromptForFacilityName(string facilityType)
-        {
-            Console.Clear();
-            Program.DisplayBanner();
-            Console.WriteLine($"Adding a new {facilityType} to the farm.  What would you like to call it?");
-            Console.WriteLine();
-            Console.Write("> ");
-            return Console.ReadLine();
-        }
+        
 
 
     }
