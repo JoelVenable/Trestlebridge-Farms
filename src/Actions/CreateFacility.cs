@@ -11,7 +11,8 @@ namespace Trestlebridge.Actions
         {
             Console.WriteLine("1. Grazing field");
             Console.WriteLine("2. Plowed field");
-
+            //Chicken House
+            Console.WriteLine("3. Chicken House");
             //Duck House
             Console.WriteLine("4. Duck House");
 
@@ -38,10 +39,19 @@ namespace Trestlebridge.Actions
                     // farm.AddPlowedField(new PlowedField());
                     break;
 
+                //Chicken House
                 case 3:
+                    string ChickenHouseName = Program.GetInput(
+                        "Adding a new Chicken House to the farm.  What would you like to call it?"
+                        );
+                    farm.AddChickenHouse(new ChickenHouse()
+                    {
+                        Name = ChickenHouseName
+                    });
+                    Program.ShowMessage($"Successfully added Chicken House: {ChickenHouseName}.");
                     break;
 
-                //Duck House 
+                //Duck House
                 case 4:
                     var DuckHouseName = Program.GetInput("Adding a new Duck House to the farm.  What would you like to call it?");
                     farm.AddDuckHouse(new DuckHouse()
@@ -54,10 +64,6 @@ namespace Trestlebridge.Actions
                 default:
                     break;
             }
-
-
-
-
         }
     }
 }
