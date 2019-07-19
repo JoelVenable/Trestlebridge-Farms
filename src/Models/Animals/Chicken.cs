@@ -12,8 +12,15 @@ namespace Trestlebridge.Models.Animals
         private double _feathersProduced = .5;
 
         private double _eggsProduced = 1.7;
-        public string Type
-        { get; set; }
+
+        private string _shortId
+        {
+            get
+            {
+                return this._id.ToString().Substring(this._id.ToString().Length - 6);
+            }
+        }
+        public string Type { get; } = "Chicken";
 
         public double Butcher()
         {
@@ -28,6 +35,11 @@ namespace Trestlebridge.Models.Animals
         public double Pluck()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return $"Chicken {this._shortId}. Cluck!";
         }
     }
 
