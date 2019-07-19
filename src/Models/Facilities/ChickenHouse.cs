@@ -15,10 +15,21 @@ namespace Trestlebridge.Models.Facilities
 
         public string Name { get; set; }
 
-        public int AvailableSpots { get
+        public int NumAnimals
+        {
+            get
+            {
+                return _animals.Count;
+            }
+        }
+
+        public int AvailableSpots
+        {
+            get
             {
                 return _capacity - _animals.Count;
-            } }
+            }
+        }
 
 
         private List<Chicken> _animals = new List<Chicken>();

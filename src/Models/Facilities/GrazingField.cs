@@ -13,6 +13,15 @@ namespace Trestlebridge.Models.Facilities
 
         public string Name { get; set; }
 
+        public int NumAnimals
+        {
+            get
+            {
+                return _animals.Count;
+            }
+        }
+
+
         public int AvailableSpots
         {
             get
