@@ -11,10 +11,9 @@ namespace Trestlebridge.Actions
         {
             Console.WriteLine("1. Grazing field");
             Console.WriteLine("2. Plowed field");
-            //Chicken House
-            Console.WriteLine("3. Chicken House");
-            //Duck House
-            Console.WriteLine("4. Duck House");
+            Console.WriteLine("3. Natural field");
+            Console.WriteLine("4. Chicken House");
+            Console.WriteLine("5. Duck House");
 
 
             Console.WriteLine();
@@ -33,14 +32,28 @@ namespace Trestlebridge.Actions
                     {
                         Name = GrazingFieldName,
                     });
-                    Program.ShowMessage($"Successfully added Grazing Field: {GrazingFieldName}.");
+                    Program.ShowMessage($"Successfully added Grazing Field: {PlowedFieldName}.");
                     break;
                 case 2:
-                    // farm.AddPlowedField(new PlowedField());
-                    break;
-
-                //Chicken House
+                    string PlowedFieldName = Program.GetInput(
+                        "Adding a new Plowed Field to the farm.  What would you like to call it?"
+                        );
+                    farm.AddGrazingField(new PlowedField()
+                    {
+                        Name = PlowedFieldName,
+                    });
+                    Program.ShowMessage($"Successfully added Plowed Field: {PlowedFieldName}."); break;
                 case 3:
+                    string NaturalFieldName = Program.GetInput(
+                          "Adding a new Natural Field to the farm.  What would you like to call it?"
+                          );
+                    farm.AddGrazingField(new NaturalField()
+                    {
+                        Name = NaturalFieldName,
+                    });
+                    Program.ShowMessage($"Successfully added Natural Field: {NaturalFieldName}.");
+                    break;
+                case 4:
                     string ChickenHouseName = Program.GetInput(
                         "Adding a new Chicken House to the farm.  What would you like to call it?"
                         );
@@ -52,7 +65,7 @@ namespace Trestlebridge.Actions
                     break;
 
                 //Duck House
-                case 4:
+                case 5:
                     var DuckHouseName = Program.GetInput("Adding a new Duck House to the farm.  What would you like to call it?");
                     farm.AddDuckHouse(new DuckHouse()
                     {
