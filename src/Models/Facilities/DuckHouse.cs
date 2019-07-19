@@ -1,20 +1,18 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 using Trestlebridge.Interfaces;
-
+using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class GrazingField : IFacility<IGrazing>
+    public class DuckHouse : IFacility<Duck>
     {
-        private int _capacity = 50;
+        private int _capacity = 200;
         private Guid _id = Guid.NewGuid();
+        private List<Duck> _animals = new List<Duck>();
 
         public string Name { get; set; }
-
-
-        private List<IGrazing> _animals = new List<IGrazing>();
 
         public double Capacity
         {
@@ -24,16 +22,14 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-        public void AddResource(IGrazing animal)
+        public void AddResource(Duck duck)
         {
-            // TODO: implement this...
-            _animals.Add(animal);
+            _animals.Add(duck);
         }
 
-        public void AddResource(List<IGrazing> animals)
+        public void AddResource(List<Duck> ducks)
         {
-            // TODO: implement this...
-            _animals.AddRange(animals);
+            _animals.AddRange(ducks);
         }
 
         public override string ToString()
@@ -41,7 +37,7 @@ namespace Trestlebridge.Models.Facilities
             StringBuilder output = new StringBuilder();
             string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
 
-            output.Append($"Grazing field {Name} has {this._animals.Count} animals\n");
+            output.Append($"Duck House {Name} has {this._animals.Count} animals\n");
             this._animals.ForEach(a => output.Append($"   {a}\n"));
 
             return output.ToString();
