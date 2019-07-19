@@ -7,7 +7,7 @@ namespace Trestlebridge
 {
     class Program
     {
-        static void DisplayBanner ()
+        public static void DisplayBanner ()
         {
             Console.Clear();
             Console.WriteLine();
@@ -18,6 +18,14 @@ namespace Trestlebridge
                     |F||a||r||m||s|
                     +-++-++-++-++-+");
             Console.WriteLine();
+        }
+
+        public static void ShowMessage(string message)
+        {
+            Console.Clear();
+            DisplayBanner();
+            Console.WriteLine(message);
+            System.Threading.Thread.Sleep(2000);
         }
 
         static void Main(string[] args)

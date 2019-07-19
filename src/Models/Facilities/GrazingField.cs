@@ -10,6 +10,9 @@ namespace Trestlebridge.Models.Facilities {
         private int _capacity = 50;
         private Guid _id = Guid.NewGuid();
 
+        public string Name { get; set; }
+
+
         private List<IGrazing> _animals = new List<IGrazing>();
 
         public double Capacity {
