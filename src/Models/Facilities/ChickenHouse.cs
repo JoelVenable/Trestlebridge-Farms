@@ -59,8 +59,8 @@ namespace Trestlebridge.Models.Facilities
       StringBuilder output = new StringBuilder();
       string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
             string s = _animals.Count > 1 ? "s" : "";
-
-      output.Append($"Chicken House {Name} ({this._animals.Count} chicken{s})\n");
+            string count = _animals.Count > 0 ? $"({ this._animals.Count} chickens{ s})" : "";
+            output.Append($"Chicken House {Name} {count}\n");
 
       return output.ToString();
     }

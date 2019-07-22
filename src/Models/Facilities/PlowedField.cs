@@ -95,7 +95,7 @@ namespace Trestlebridge.Models.Facilities
                 }
 
             }
-
+            else output.Append("\n");
 
             return output.ToString();
         }
