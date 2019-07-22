@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using Trestlebridge.Interfaces;
-
+using System.Linq;
 
 namespace Trestlebridge.Models.Facilities
 {
@@ -13,6 +13,14 @@ namespace Trestlebridge.Models.Facilities
         private int _plantsPerRow = 6;
 
         private Guid _id = Guid.NewGuid();
+
+        public int currentPlants
+        {
+            get
+            {
+                return _plants.Count * _plantsPerRow;
+            }
+        }
 
         public string Name { get; set; }
 
@@ -25,6 +33,7 @@ namespace Trestlebridge.Models.Facilities
         }
 
         private List<IComposting> _plants = new List<IComposting>();
+
 
         public double Capacity
         {
@@ -42,6 +51,16 @@ namespace Trestlebridge.Models.Facilities
         public void AddResource(List<IComposting> plants)
         {
             _plants.AddRange(plants);
+        }
+
+        public void ListByType()
+        {
+            var groupedPlants = _plants.GroupBy(plant => plant.Type);
+            foreach (IGrouping<string, IComposting> plant in groupedPlants)
+            {
+                System.Console.WriteLine($"{plant.Key} {plant.Count() * _plantsPerRow}");
+            }
+
         }
 
         public override string ToString()

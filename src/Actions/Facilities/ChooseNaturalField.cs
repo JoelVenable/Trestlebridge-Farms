@@ -6,44 +6,37 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Actions
 {
-  public class ChooseNaturalField
-  {
-    public static void CollectInput(Farm farm, IComposting seed)
+    public class ChooseNaturalField
     {
-      Console.Clear();
+        public static void CollectInput(Farm farm, IComposting seed)
+        {
+            Console.Clear();
 
-      for (int i = 0; i < farm.NaturalFields.Count; i++)
-      {
-        Console.WriteLine($"{i + 1}. Natural Field: {farm.NaturalFields[i].Name}");
-      }
+            var fieldsWithSpace = farm.NaturalFields.FindAll(field => field.AvailableSpots > 0);
+            for (int i = 0; i < fieldsWithSpace.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {fieldsWithSpace[i].Name} - Current Plants {fieldsWithSpace[i].currentPlants} | Available Rows: {fieldsWithSpace[i].AvailableSpots}");
+                fieldsWithSpace[i].ListByType();
 
-      Console.WriteLine();
+            }
 
-      // How can I output the type of animal chosen here?
-      Console.WriteLine($"Place the seed where?");
+            Console.WriteLine();
 
-      Console.Write("> ");
+            Console.WriteLine($"Place the row of seeds where?");
 
-      try
-      {
-        int choice = Int32.Parse(Console.ReadLine()) - 1;
+            Console.Write("> ");
 
-        farm.NaturalFields[choice].AddResource(seed);
+            try
+            {
+                int choice = Int32.Parse(Console.ReadLine()) - 1;
 
-      }
-      catch (Exception ex)
-      {
-        Program.ShowMessage("Invalid Input");
-      }
+                farm.NaturalFields[choice].AddResource(seed);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowMessage("Invalid Input");
+            }
 
-
-
-      /*
-          Couldn't get this to work. Can you?
-          Stretch goal. Only if the app is fully functional.
-       */
-      // farm.PurchaseResource<IGrazing>(animal, choice);
-
+        }
     }
-  }
 }
