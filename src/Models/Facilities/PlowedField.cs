@@ -70,6 +70,18 @@ namespace Trestlebridge.Models.Facilities
             return _plants.GroupBy(animal => animal.Type).ToList();
         }
 
+        public int Process(int numToProcess, string type)
+        {
+            int outputQuantity = 0;
+            for (int i = 0; i < numToProcess; i++)
+            {
+                var selectedPlant = _plants.Find(plant => plant.Type == type);
+                outputQuantity += selectedPlant.Harvest();
+                _plants.Remove(selectedPlant);
+            }
+            return outputQuantity;
+        }
+
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();

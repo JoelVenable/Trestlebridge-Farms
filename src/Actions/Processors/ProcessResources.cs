@@ -27,16 +27,16 @@ namespace Trestlebridge.Actions
                         HarvestSeeds.CollectInput(farm);
                         break;
                     case 2:
-                        ProcessMeat.CollectInput(farm);
+                        //ProcessMeat.CollectInput(farm);
                         break;
                     case 3:
-                        GatherEggs.CollectInput(farm);
+                       // GatherEggs.CollectInput(farm);
                         break;
                     case 4:
-                        Compost.CollectInput(farm);
+                        //Compost.CollectInput(farm);
                         break;
                     case 5:
-                        GatherFeathers.CollectInput(farm);
+                        //GatherFeathers.CollectInput(farm);
                         break;
                     default:
                         Program.ShowMessage("Invalid selection.  Please choose again.");

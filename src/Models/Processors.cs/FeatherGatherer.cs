@@ -4,6 +4,9 @@ namespace Trestlebridge.Models.Processors
     {
         double ChickenFeathers { get; set; } = 0;
         double DuckFeathers { get; set; } = 0;
+
+        public int Capacity { get; } = 5;  // rows of plants
+
         double TotalFeathers
         {
             get

@@ -7,6 +7,9 @@ namespace Trestlebridge.Models.Processors
         double PigMeat { get; set; } = 0;
         double SheepMeat { get; set; } = 0;
         double OstrichMeat { get; set; } = 0;
+
+        public int Capacity { get; } = 5;  // rows of plants
+
         double TotalMeat
         {
             get
