@@ -16,7 +16,7 @@ namespace Trestlebridge.Actions
 
       for (int i = 0; i < field.Count; i++)
       {
-        Console.WriteLine($"{i + 1}. Grazing Field ({field[i].NumAnimals} animals)");
+        Console.WriteLine($"{i + 1}. Grazing Field: {houses[i].Name} ({field[i].NumAnimals} animals)");
       }
 
       Console.WriteLine();
