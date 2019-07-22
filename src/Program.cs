@@ -7,7 +7,7 @@ namespace Trestlebridge
 {
     class Program
     {
-        public static void DisplayBanner ()
+        public static void DisplayBanner()
         {
             Console.Clear();
             Console.WriteLine();
@@ -41,7 +41,7 @@ namespace Trestlebridge
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.White;
-			Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
 
             Farm Trestlebridge = new Farm();
 
@@ -68,6 +68,11 @@ namespace Trestlebridge
                 {
                     DisplayBanner();
                     PurchaseStock.CollectInput(Trestlebridge);
+                }
+                else if (option == "3")
+                {
+                    DisplayBanner();
+                    PurchaseSeed.CollectInput(Trestlebridge);
                 }
                 else if (option == "4")
                 {
