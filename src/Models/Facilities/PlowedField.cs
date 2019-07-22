@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using Trestlebridge.Interfaces;
-
+using System.Linq;
 
 namespace Trestlebridge.Models.Facilities
 {
@@ -15,6 +15,14 @@ namespace Trestlebridge.Models.Facilities
         private Guid _id = Guid.NewGuid();
 
         public string Name { get; set; }
+
+        public int currentPlants
+        {
+            get
+            {
+                return _plants.Count * _plantsPerRow;
+            }
+        }
 
         public int AvailableSpots
         {
@@ -39,6 +47,16 @@ namespace Trestlebridge.Models.Facilities
         public void AddResource(ISeedProducing plant)
         {
             _plants.Add(plant);
+        }
+
+        public void ListByType()
+        {
+            var groupedPlants = _plants.GroupBy(plant => plant.Type);
+            foreach (IGrouping<string, ISeedProducing> plant in groupedPlants)
+            {
+                Console.WriteLine($"{plant.Key} {plant.Count() * _plantsPerRow}");
+            }
+
         }
 
         public void AddResource(List<ISeedProducing> plants)
