@@ -12,26 +12,22 @@ namespace Trestlebridge.Actions
         {
             Console.Clear();
 
-            for (int i = 0; i < farm.NaturalFields.Count; i++)
+            var fieldsWithSpace = farm.NaturalFields.FindAll(field => field.AvailableSpots > 0);
+            for (int i = 0; i < fieldsWithSpace.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. Natural Field: {farm.NaturalFields[i].Name}");
+                Console.WriteLine($"{i + 1}. {fieldsWithSpace[i].Name} - Current Plants {fieldsWithSpace[i].currentPlants} | Available Rows: {fieldsWithSpace[i].AvailableSpots}");
+                fieldsWithSpace[i].ListByType();
+
             }
 
             Console.WriteLine();
 
-            // How can I output the type of animal chosen here?
-            Console.WriteLine($"Place the seed where?");
+            Console.WriteLine($"Place the row of seeds where?");
 
             Console.Write("> ");
             int choice = Int32.Parse(Console.ReadLine()) - 1;
 
             farm.NaturalFields[choice].AddResource(seed);
-
-            /*
-                Couldn't get this to work. Can you?
-                Stretch goal. Only if the app is fully functional.
-             */
-            // farm.PurchaseResource<IGrazing>(animal, choice);
 
         }
     }
