@@ -24,19 +24,19 @@ namespace Trestlebridge.Actions
                 switch (Int32.Parse(choice))
                 {
                     case 1:
-                        HarvestSeeds.CollectInput();
+                        HarvestSeeds.CollectInput(farm);
                         break;
                     case 2:
-                        ProcessMeat.CollectInput();
+                        ProcessMeat.CollectInput(farm);
                         break;
                     case 3:
-                        GatherEggs.CollectInput();
+                        GatherEggs.CollectInput(farm);
                         break;
                     case 4:
-                        Compost.CollectInput();
+                        Compost.CollectInput(farm);
                         break;
                     case 5:
-                        GatherFeathers.CollectInput();
+                        GatherFeathers.CollectInput(farm);
                         break;
                     default:
                         Program.ShowMessage("Invalid selection.  Please choose again.");
