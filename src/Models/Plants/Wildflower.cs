@@ -3,19 +3,19 @@ using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Plants
 {
-    public class Wildflower : IResource, IComposting
+  public class Wildflower : IResource, IComposting
+  {
+    private double _kgComposted = 2.33;
+    public string Type { get; } = "Wildflower";
+
+    public double Compost()
     {
-        private double _kgComposted = 2.33;
-        public string Type { get; } = "Wildflower";
-
-        public double Compost()
-        {
-            return _kgComposted;
-        }
-
-        public override string ToString()
-        {
-            return $"Sesame. Yum!";
-        }
+      return _kgComposted;
     }
+
+    public override string ToString()
+    {
+      return $"Wildflower. Yum!";
+    }
+  }
 }
