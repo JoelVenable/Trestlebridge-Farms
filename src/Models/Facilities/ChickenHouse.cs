@@ -9,11 +9,27 @@ namespace Trestlebridge.Models.Facilities
 {
     public class ChickenHouse : IFacility<Chicken>
     {
-        public double _capacity = 200;
+        public int _capacity = 15;
 
         private Guid _id = Guid.NewGuid();
 
         public string Name { get; set; }
+
+        public int NumAnimals
+        {
+            get
+            {
+                return _animals.Count;
+            }
+        }
+
+        public int AvailableSpots
+        {
+            get
+            {
+                return _capacity - _animals.Count;
+            }
+        }
 
 
         private List<Chicken> _animals = new List<Chicken>();

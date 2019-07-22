@@ -25,9 +25,17 @@ namespace Trestlebridge.Actions
             Console.WriteLine($"Place the row of seeds where?");
 
             Console.Write("> ");
-            int choice = Int32.Parse(Console.ReadLine()) - 1;
 
-            farm.NaturalFields[choice].AddResource(seed);
+            try
+            {
+                int choice = Int32.Parse(Console.ReadLine()) - 1;
+
+                farm.NaturalFields[choice].AddResource(seed);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowMessage("Invalid Input");
+            }
 
         }
     }
