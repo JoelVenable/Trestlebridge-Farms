@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Facilities;
+using Trestlebridge.Models.Processors;
 
 namespace Trestlebridge.Models
 {
     public class Farm
     {
+        public SeedHarvester SeedHarvester { get; } = new SeedHarvester();
+        public Composter Composter { get; } = new Composter();
+        public EggGatherer EggGatherer { get; } = new EggGatherer();
+        public MeatProcessor MeatProcessor { get; } = new MeatProcessor();
+        public FeatherGatherer FeatherGatherer { get; } = new FeatherGatherer();
+
         public List<GrazingField> GrazingFields { get; } = new List<GrazingField>();
         public List<DuckHouse> DuckHouses { get; } = new List<DuckHouse>();
+
 
         public List<NaturalField> NaturalFields { get; } = new List<NaturalField>();
 
         public List<PlowedField> PlowedFields { get; } = new List<PlowedField>();
-
-
 
         public List<ChickenHouse> ChickenHouses { get; } = new List<ChickenHouse>();
 
