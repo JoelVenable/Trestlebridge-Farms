@@ -63,15 +63,41 @@ namespace Trestlebridge.Models.Facilities
 
         }
 
+
+        public List<IGrouping<string, IComposting>> CreateGroup()
+        {
+            return _plants.GroupBy(animal => animal.Type).ToList();
+        }
+
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();
-            string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
 
-            output.Append($"Natural field {Name} has {this._plants.Count} plants\n");
-            this._plants.ForEach(a => output.Append($"   {a}\n"));
+            output.Append($"Natural field {Name}");
+            var plantGroups = CreateGroup();
+            if (_plants.Count > 0)
+            {
+                output.Append(" (");
+                for (int i = 0; i < plantGroups.Count; i++)
+                {
+                    int count = plantGroups[i].Count();
+                    string s = (count > 1) ? "s" : "";
+                    output.Append($"{count} {plantGroups[i].Key}{s}");
+                    if (i + 1 < plantGroups.Count)
+                    {
+                        output.Append(", ");
+                    }
+                    else
+                    {
+                        output.Append(")\n");
+                    }
+                }
+
+            }
+
 
             return output.ToString();
         }
+
     }
 }
