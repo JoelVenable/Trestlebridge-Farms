@@ -8,33 +8,40 @@ using Trestlebridge.Models.Facilities;
 
 namespace Trestlebridge.Actions
 {
-    public class ChooseChickenHouse
+  public class ChooseChickenHouse
+  {
+    public static void CollectInput(List<ChickenHouse> houses, Chicken chicken)
     {
-        public static void CollectInput(List<ChickenHouse> houses, Chicken chicken)
-        {
-            Console.Clear();
+      Console.Clear();
 
-            for (int i = 0; i < houses.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. ChickenHouse ({houses[i].NumAnimals} animals)");
-            }
+      for (int i = 0; i < houses.Count; i++)
+      {
+        Console.WriteLine($"{i + 1}. ChickenHouse ({houses[i].NumAnimals} animals)");
+      }
 
-            Console.WriteLine();
+      Console.WriteLine();
 
-            // How can I output the type of animal chosen here?
-            Console.WriteLine("Place the chicken where?");
+      // How can I output the type of animal chosen here?
+      Console.WriteLine("Place the chicken where?");
 
-            Console.Write("> ");
-            int choice = Int32.Parse(Console.ReadLine());
+      Console.Write("> ");
+      try
+      {
+        int choice = Int32.Parse(Console.ReadLine());
+        houses[choice - 1].AddResource(chicken);
+      }
+      catch (Exception ex)
+      {
+        Program.ShowMessage("Invalid input!");
+      }
 
-            houses[choice - 1].AddResource(chicken);
 
-            /*
-                Couldn't get this to work. Can you?
-                Stretch goal. Only if the app is fully functional.
-             */
-            // farm.PurchaseResource<IGrazing>(animal, choice);
+      /*
+          Couldn't get this to work. Can you?
+          Stretch goal. Only if the app is fully functional.
+       */
+      // farm.PurchaseResource<IGrazing>(animal, choice);
 
-        }
     }
+  }
 }

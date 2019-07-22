@@ -6,33 +6,44 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Actions
 {
-    public class ChoosePlowedField
+  public class ChoosePlowedField
+  {
+    public static void CollectInput(Farm farm, ISeedProducing seed)
     {
-        public static void CollectInput(Farm farm, ISeedProducing seed)
-        {
-            Console.Clear();
+      Console.Clear();
 
-            for (int i = 0; i < farm.PlowedFields.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. Plowed Field: {farm.PlowedFields[i].Name}");
-            }
+      for (int i = 0; i < farm.PlowedFields.Count; i++)
+      {
+        Console.WriteLine($"{i + 1}. Plowed Field: {farm.PlowedFields[i].Name}");
+      }
 
-            Console.WriteLine();
+      Console.WriteLine();
 
-            // How can I output the type of animal chosen here?
-            Console.WriteLine($"Place the seed where?");
+      // How can I output the type of animal chosen here?
+      Console.WriteLine($"Place the seed where?");
 
-            Console.Write("> ");
-            int choice = Int32.Parse(Console.ReadLine()) - 1;
+      Console.Write("> ");
 
-            farm.PlowedFields[choice].AddResource(seed);
+      try
+      {
+        int choice = Int32.Parse(Console.ReadLine()) - 1;
 
-            /*
-                Couldn't get this to work. Can you?
-                Stretch goal. Only if the app is fully functional.
-             */
-            // farm.PurchaseResource<IGrazing>(animal, choice);
+        farm.PlowedFields[choice].AddResource(seed);
 
-        }
+      }
+      catch (Exception ex)
+      {
+        Program.ShowMessage("Invalid Input");
+      }
+
+
+
+      /*
+          Couldn't get this to work. Can you?
+          Stretch goal. Only if the app is fully functional.
+       */
+      // farm.PurchaseResource<IGrazing>(animal, choice);
+
     }
+  }
 }
