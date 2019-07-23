@@ -54,9 +54,11 @@ namespace Trestlebridge.Models.Facilities
 
         public void SendToBasket(int numToProcess, Farm farm)
         {
+            var chicken = new Chicken();
             for (int i = 0; i < numToProcess; i++)
             {
-                farm.EggGatherer.AddToBasket(_chickens[i]);
+                farm.EggGatherer.AddToBasket(chicken.EggsProduced);
+                farm.EggGatherer.GatheredAnimals(chicken);
             }
         }
 

@@ -14,13 +14,15 @@ namespace Trestlebridge.Models.Processors
 
         private readonly int _capacity = 15; //eggs
 
-        private List<IEggProducing> _basket = new List<IEggProducing>();
+        private List<IEggProducing> _animalsUsed = new List<IEggProducing>();
+
+        private int _eggsInBasket = 0;
 
         public int Capacity
         {
             get
             {
-                return _capacity - _basket.Count;
+                return _capacity - _eggsInBasket;
             }
         }  // eggs
 
@@ -32,20 +34,27 @@ namespace Trestlebridge.Models.Processors
             }
         }
 
-        public void AddToBasket(IEggProducing resourceToAdd)
+        public void AddToBasket(int resourceToAdd)
         {
-            _basket.Add(resourceToAdd);
+            _eggsInBasket += resourceToAdd;
+        }
+
+        public void GatheredAnimals(IEggProducing animal)
+        {
+            _animalsUsed.Add(animal);
         }
 
 
         public void Gather()
         {
+
+            Program.ShowMessage($"Proccessed {_eggsInBasket} eggs");
             int chickenEggs = 0;
             int duckEggs = 0;
             int ostrichEggs = 0;
             //  Display message about resources processed.
 
-            _basket.ForEach(item =>
+            _animalsUsed.ForEach(item =>
             {
                 if (item is Chicken chicken) chickenEggs += chicken.Gather();
                 if (item is Duck duck) duckEggs += duck.Gather();
@@ -64,7 +73,7 @@ namespace Trestlebridge.Models.Processors
             ChickenEggs += chickenEggs;
             DuckEggs += duckEggs;
             OstrichEggs += ostrichEggs;
-            _basket.Clear();
+            _animalsUsed.Clear();
         }
 
 

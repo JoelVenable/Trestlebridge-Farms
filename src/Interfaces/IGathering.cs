@@ -12,6 +12,5 @@ namespace Trestlebridge.Interfaces
         int NumAnimals { get; }
 
         void SendToBasket(int num, Farm farm);
-
     }
 }

@@ -11,7 +11,7 @@ namespace Trestlebridge.Models.Animals
 
         private double _feathersProduced = .5;
 
-        private double _eggsProduced = 7;
+        public int EggsProduced = 7;
 
         private string _shortId
         {
