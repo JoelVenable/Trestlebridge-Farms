@@ -70,16 +70,14 @@ namespace Trestlebridge.Models.Facilities
             return _plants.GroupBy(animal => animal.Type).ToList();
         }
 
-        public int Process(int numToProcess, string type)
+        public void SendToHopper(int numToProcess, string type, Farm farm)
         {
-            int outputQuantity = 0;
             for (int i = 0; i < numToProcess; i++)
             {
                 var selectedPlant = _plants.Find(plant => plant.Type == type);
-                outputQuantity += selectedPlant.Harvest();
+                farm.SeedHarvester.AddToHopper(selectedPlant);
                 _plants.Remove(selectedPlant);
             }
-            return outputQuantity;
         }
 
         public override string ToString()
