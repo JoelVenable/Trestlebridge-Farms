@@ -31,6 +31,15 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
+          public int NumMeatAnimals
+        {
+            get
+            {
+                return _animals.Count;
+            }
+        }
+
+
 
         public double Capacity
         {

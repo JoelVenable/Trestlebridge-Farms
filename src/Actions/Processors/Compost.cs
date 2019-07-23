@@ -27,7 +27,7 @@ namespace Trestlebridge.Actions
                 int quantity = SelectQuantity(farm.Composter.Capacity, selectedGroup);
 
                 // Add selected resources to hopper
-                selectedField.SendToHopper(quantity, selectedGroup.Key, farm);
+                selectedField.SendToComposter(quantity, selectedGroup.Key, farm);
 
 
             } while (AddMore(farm.Composter.Capacity));

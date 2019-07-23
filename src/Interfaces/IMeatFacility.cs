@@ -5,12 +5,14 @@ using System.Linq;
 
 namespace Trestlebridge.Interfaces
 {
-    public interface IMeatFacility
-    {
-        List<IGrouping<string, IMeatProducing>> CreateMeatGroup();
+  public interface IMeatFacility
+  {
+    List<IGrouping<string, IMeatProducing>> CreateMeatGroup();
+
+    int NumMeatAnimals { get; }
 
 
-        void SendToHopper(int numToProcess, string type, Farm farm);
+    void SendToHopper(int numToProcess, string type, Farm farm);
 
-    }
+  }
 }
