@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class DuckHouse : IFacility<Duck>
+    public class DuckHouse : IFacility<Duck>, IMeatFacility
     {
         private int _capacity = 12;
         private Guid _id = Guid.NewGuid();
@@ -59,6 +60,28 @@ namespace Trestlebridge.Models.Facilities
             output.Append($"Duck House {Name} {count}\n");
 
             return output.ToString();
+        }
+
+        public List<IGrouping<string, IMeatProducing>> CreateMeatGroup()
+        {
+            return _animals
+            .ConvertAll(animal => (IMeatProducing)animal)
+            .GroupBy(animal => animal.Type).ToList();
+            // return new List<IGrouping<string, IMeatProducing>> (){
+            //   new IGrouping<string, IMeatProducing>(){
+
+            //   }
+            // };
+        }
+
+        public void SendToHopper(int numToProcess, string type, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                var selectedAnimal = _animals.Find(animal => animal.Type == type);
+                farm.MeatProcessor.AddToHopper((IMeatProducing)selectedAnimal);
+                _animals.Remove(selectedAnimal);
+            }
         }
     }
 }

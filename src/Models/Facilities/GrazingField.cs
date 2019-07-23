@@ -7,7 +7,7 @@ using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class GrazingField : IFacility<IGrazing>, ICompostProducing
+    public class GrazingField : IFacility<IGrazing>, ICompostProducing, IMeatFacility
     {
         private int _capacity = 20;
         private Guid _id = Guid.NewGuid();
@@ -41,7 +41,6 @@ namespace Trestlebridge.Models.Facilities
         }
 
 
-        private List<IGrazing> _animals = new List<IGrazing>();
 
         public double Capacity
         {
@@ -51,17 +50,6 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-        public void AddResource(IGrazing animal)
-        {
-            // TODO: implement this...
-            _animals.Add(animal);
-        }
-
-        public void AddResource(List<IGrazing> animals)
-        {
-            // TODO: implement this...
-            _animals.AddRange(animals);
-        }
 
         public void SendToHopper(int numToProcess, string type, Farm farm)
         {
@@ -87,6 +75,22 @@ namespace Trestlebridge.Models.Facilities
             }
             return convertedGoats.GroupBy(animal => animal.Type).ToList();
         }
+
+        private List<IGrazing> _animals = new List<IGrazing>();
+
+
+        public void AddResource(IGrazing animal)
+        {
+            // TODO: implement this...
+            _animals.Add(animal);
+        }
+
+        public void AddResource(List<IGrazing> animals)
+        {
+            // TODO: implement this...
+            _animals.AddRange(animals);
+        }
+
 
         public override string ToString()
         {
@@ -116,6 +120,11 @@ namespace Trestlebridge.Models.Facilities
             else output.Append("\n");
 
             return output.ToString();
+        }
+
+        public List<IGrouping<string, IMeatProducing>> CreateMeatGroup()
+        {
+            throw new NotImplementedException();
         }
     }
 }

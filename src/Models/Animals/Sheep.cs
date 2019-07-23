@@ -4,37 +4,37 @@ using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Animals
 {
-  public class Sheep : IResource, IGrazing, IMeatProducing
-  {
-
-    private Guid _id = Guid.NewGuid();
-    private double _meatProduced = 5;
-
-    private string _shortId
+    public class Sheep : IResource, IGrazing, IMeatProducing
     {
-      get
-      {
-        return this._id.ToString().Substring(this._id.ToString().Length - 6);
-      }
-    }
 
-    public double GrassPerDay { get; set; } = 4;
-    public string Type { get; } = "Sheep";
+        private Guid _id = Guid.NewGuid();
+        private double _meatProduced = 5;
 
-    // Methods
-    public void Graze()
-    {
-      Console.WriteLine($"Sheep {this._shortId} just ate {this.GrassPerDay}kg of grass");
-    }
+        private string _shortId
+        {
+            get
+            {
+                return this._id.ToString().Substring(this._id.ToString().Length - 6);
+            }
+        }
 
-    public double Butcher()
-    {
-      return _meatProduced;
-    }
+        public double GrassPerDay { get; set; } = 4;
+        public string Type { get; } = "Sheep";
 
-    public override string ToString()
-    {
-      return "The Sheep goes Baa!";
+        // Methods
+        public void Graze()
+        {
+            Console.WriteLine($"Sheep {this._shortId} just ate {this.GrassPerDay}kg of grass");
+        }
+
+        public double Butcher()
+        {
+            return _meatProduced;
+        }
+
+        public override string ToString()
+        {
+            return "The Sheep goes Baa!";
+        }
     }
-  }
 }

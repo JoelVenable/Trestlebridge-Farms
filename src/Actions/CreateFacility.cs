@@ -22,7 +22,19 @@ namespace Trestlebridge.Actions
             Console.Write("> ");
             string input = Console.ReadLine();
 
-            switch (Int32.Parse(input))
+            int inputNum = 0;
+            try
+            {
+                inputNum = Int32.Parse(input);
+                if (inputNum < 1 || inputNum > 5) throw new Exception();
+            }
+            catch (Exception)
+            {
+                Program.ShowMessage("invalid input");
+                CollectInput(farm);
+            }
+
+            switch (inputNum)
             {
                 case 1:
                     string GrazingFieldName = Program.GetInput(
