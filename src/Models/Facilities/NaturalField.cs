@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class NaturalField : IFacility<IComposting>
+    public class NaturalField : IFacility<IComposting>, ICompostProducing
     {
         private int _rows = 10;
 
@@ -21,6 +21,15 @@ namespace Trestlebridge.Models.Facilities
                 return _plants.Count * _plantsPerRow;
             }
         }
+
+        public int CompostAmmount
+        {
+            get
+            {
+                return currentPlants;
+            }
+        }
+
 
         public string Name { get; set; }
 
@@ -63,8 +72,18 @@ namespace Trestlebridge.Models.Facilities
 
         }
 
+        public void SendToHopper(int numToProcess, string type, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                var selectedPlant = _plants.Find(plant => plant.Type == type);
+                farm.Composter.AddToHopper(selectedPlant);
+                _plants.Remove(selectedPlant);
+            }
+        }
 
-        public List<IGrouping<string, IComposting>> CreateGroup()
+
+        public List<IGrouping<string, IComposting>> CreateCompostList()
         {
             return _plants.GroupBy(animal => animal.Type).ToList();
         }
@@ -74,7 +93,7 @@ namespace Trestlebridge.Models.Facilities
             StringBuilder output = new StringBuilder();
 
             output.Append($"Natural field {Name}");
-            var plantGroups = CreateGroup();
+            var plantGroups = CreateCompostList();
             if (_plants.Count > 0)
             {
                 output.Append(" (");

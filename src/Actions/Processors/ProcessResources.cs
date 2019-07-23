@@ -30,10 +30,10 @@ namespace Trestlebridge.Actions
                         //ProcessMeat.CollectInput(farm);
                         break;
                     case 3:
-                       // GatherEggs.CollectInput(farm);
+                        // GatherEggs.CollectInput(farm);
                         break;
                     case 4:
-                        //Compost.CollectInput(farm);
+                        Compost.CollectInput(farm);
                         break;
                     case 5:
                         //GatherFeathers.CollectInput(farm);
