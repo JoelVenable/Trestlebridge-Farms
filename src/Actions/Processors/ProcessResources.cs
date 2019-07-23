@@ -33,7 +33,7 @@ namespace Trestlebridge.Actions
                         // GatherEggs.CollectInput(farm);
                         break;
                     case 4:
-                        //Compost.CollectInput(farm);
+                        Compost.CollectInput(farm);
                         break;
                     case 5:
                         //GatherFeathers.CollectInput(farm);

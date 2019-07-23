@@ -7,7 +7,7 @@ using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class GrazingField : IFacility<IGrazing>, IMeatFacility
+    public class GrazingField : IFacility<IGrazing>, ICompostProducing, IMeatFacility
     {
         private int _capacity = 20;
         private Guid _id = Guid.NewGuid();
@@ -22,6 +22,15 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
+        public int CompostAmmount
+        {
+            get
+            {
+                var goats = _animals.FindAll(animal => animal.Type == "Goat");
+                return goats.Count;
+            }
+        }
+
 
         public int AvailableSpots
         {
@@ -32,7 +41,6 @@ namespace Trestlebridge.Models.Facilities
         }
 
 
-        private List<IGrazing> _animals = new List<IGrazing>();
 
         public double Capacity
         {
@@ -41,6 +49,35 @@ namespace Trestlebridge.Models.Facilities
                 return _capacity;
             }
         }
+
+
+        public void SendToHopper(int numToProcess, string type, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                var selectedAnimal = _animals.Find(animal => animal.Type == type);
+                farm.Composter.AddToHopper((IComposting)selectedAnimal);
+            }
+        }
+
+        public List<IGrouping<string, IGrazing>> CreateGroup()
+        {
+            return _animals.GroupBy(animal => animal.Type).ToList();
+        }
+
+        public List<IGrouping<string, IComposting>> CreateCompostList()
+        {
+            var convertedGoats = new List<IComposting>();
+            var goats = _animals.FindAll(animal => animal.Type == "Goat").ToList();
+            foreach (var goat in goats)
+            {
+                convertedGoats.Add((IComposting)goat);
+            }
+            return convertedGoats.GroupBy(animal => animal.Type).ToList();
+        }
+
+        private List<IGrazing> _animals = new List<IGrazing>();
+
 
         public void AddResource(IGrazing animal)
         {
@@ -54,10 +91,6 @@ namespace Trestlebridge.Models.Facilities
             _animals.AddRange(animals);
         }
 
-        public List<IGrouping<string, IGrazing>> CreateGroup()
-        {
-            return _animals.GroupBy(animal => animal.Type).ToList();
-        }
 
         public override string ToString()
         {
@@ -91,28 +124,7 @@ namespace Trestlebridge.Models.Facilities
 
         public List<IGrouping<string, IMeatProducing>> CreateMeatGroup()
         {
-            return _animals
-            .Where(animal => animal.Type != "Goat")
-            .ToList()
-            .ConvertAll(animal => (IMeatProducing)animal)
-            .GroupBy(animal => animal.Type).ToList();
-            // return new List<IGrouping<string, IMeatProducing>> (){
-            //   new IGrouping<string, IMeatProducing>(){
-
-            //   }
-            // };
+            throw new NotImplementedException();
         }
-
-        public void SendToHopper(int numToProcess, string type, Farm farm)
-        {
-            for (int i = 0; i < numToProcess; i++)
-            {
-                var selectedAnimal = _animals.Find(animal => animal.Type == type);
-                farm.MeatProcessor.AddToHopper((IMeatProducing)selectedAnimal);
-                _animals.Remove(selectedAnimal);
-            }
-        }
-
-
     }
 }
