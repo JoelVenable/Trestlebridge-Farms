@@ -22,7 +22,12 @@ namespace Trestlebridge.Models.Processors
         {
             get
             {
-                return _capacity - _eggsInBasket;
+                var capacity = _capacity;
+                foreach (IEggProducing animal in _animalsUsed)
+                {
+                    capacity = capacity - animal.EggsProduced;
+                }
+                return capacity;
             }
         }  // eggs
 
@@ -48,7 +53,9 @@ namespace Trestlebridge.Models.Processors
         public void Gather()
         {
 
-            Program.ShowMessage($"Proccessed {_eggsInBasket} eggs");
+            // Program.ShowMessage($"Proccessed {_eggsInBasket} eggs");
+
+
             int chickenEggs = 0;
             int duckEggs = 0;
             int ostrichEggs = 0;
@@ -64,9 +71,9 @@ namespace Trestlebridge.Models.Processors
             string message = "Gathering resources...\n";
 
 
-            if (chickenEggs > 0) message += $"{chickenEggs} Sesame seeds were harvested.\n";
-            if (duckEggs > 0) message += $"{duckEggs} Sunflower seeds were harvested.\n";
-            if (ostrichEggs > 0) message += $"{ostrichEggs} Sunflower seeds were harvested.\n";
+            if (chickenEggs > 0) message += $"{chickenEggs} Chicken eggs were harvested.\n";
+            if (duckEggs > 0) message += $"{duckEggs} Duck eggs were harvested.\n";
+            if (ostrichEggs > 0) message += $"{ostrichEggs} Ostrich eggs were harvested.\n";
 
             Program.ShowMessage(message);
 

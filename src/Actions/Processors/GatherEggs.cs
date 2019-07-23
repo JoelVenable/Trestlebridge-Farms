@@ -50,12 +50,14 @@ namespace Trestlebridge.Actions
             bool doOver;
             do
             {
+
                 doOver = false;
                 Program.DisplayBanner();
 
                 var houses = new List<IGathering>();
                 houses.AddRange(farm.ChickenHouses);
                 houses.AddRange(farm.DuckHouses);
+                houses.AddRange(farm.GrazingFields);
 
                 for (var i = 0; i < houses.Count; i++)
                 {

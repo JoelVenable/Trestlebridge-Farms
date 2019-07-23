@@ -11,7 +11,7 @@ namespace Trestlebridge.Models.Animals
 
         private double _feathersProduced = .5;
 
-        public int EggsProduced = 7;
+        public int EggsProduced { get; } = 7;
 
         private string _shortId
         {
@@ -29,7 +29,7 @@ namespace Trestlebridge.Models.Animals
 
         public int Gather()
         {
-            throw new NotImplementedException();
+            return EggsProduced;
         }
 
         public double Pluck()
