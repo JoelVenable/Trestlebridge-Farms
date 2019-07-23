@@ -22,15 +22,13 @@ namespace Trestlebridge
 
         public static void ShowMessage(string message)
         {
-            Console.Clear();
             DisplayBanner();
             Console.WriteLine(message);
-            System.Threading.Thread.Sleep(2000);
+            Console.ReadLine();
         }
 
         public static string GetInput(string message)
         {
-            Console.Clear();
             Program.DisplayBanner();
             Console.WriteLine(message);
             Console.WriteLine();
