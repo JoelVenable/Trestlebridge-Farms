@@ -41,7 +41,7 @@ namespace Trestlebridge.Actions
             // GatherEggs.CollectInput(farm);
             break;
           case 4:
-            //Compost.CollectInput(farm);
+            Compost.CollectInput(farm);
             break;
           default:
             Program.ShowMessage("Invalid selection.  Please choose again.");

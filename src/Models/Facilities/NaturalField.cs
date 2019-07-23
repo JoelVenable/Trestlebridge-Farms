@@ -6,98 +6,117 @@ using System.Linq;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class NaturalField : IFacility<IComposting>
+  public class NaturalField : IFacility<IComposting>, ICompostProducing
+  {
+    private int _rows = 10;
+
+    private int _plantsPerRow = 6;
+
+    private Guid _id = Guid.NewGuid();
+
+    public int currentPlants
     {
-        private int _rows = 10;
+      get
+      {
+        return _plants.Count * _plantsPerRow;
+      }
+    }
 
-        private int _plantsPerRow = 6;
-
-        private Guid _id = Guid.NewGuid();
-
-        public int currentPlants
-        {
-            get
-            {
-                return _plants.Count * _plantsPerRow;
-            }
-        }
-
-        public string Name { get; set; }
-
-        public int AvailableSpots
-        {
-            get
-            {
-                return _rows - _plants.Count;
-            }
-        }
-
-        private List<IComposting> _plants = new List<IComposting>();
+    public int CompostAmmount
+    {
+      get
+      {
+        return currentPlants;
+      }
+    }
 
 
-        public double Capacity
-        {
-            get
-            {
-                return _rows;
-            }
-        }
+    public string Name { get; set; }
 
-        public void AddResource(IComposting plant)
-        {
-            _plants.Add(plant);
-        }
+    public int AvailableSpots
+    {
+      get
+      {
+        return _rows - _plants.Count;
+      }
+    }
 
-        public void AddResource(List<IComposting> plants)
-        {
-            _plants.AddRange(plants);
-        }
-
-        public void ListByType()
-        {
-            var groupedPlants = _plants.GroupBy(plant => plant.Type);
-            foreach (IGrouping<string, IComposting> plant in groupedPlants)
-            {
-                System.Console.WriteLine($"{plant.Key} {plant.Count() * _plantsPerRow}");
-            }
-
-        }
+    private List<IComposting> _plants = new List<IComposting>();
 
 
-        public List<IGrouping<string, IComposting>> CreateGroup()
-        {
-            return _plants.GroupBy(animal => animal.Type).ToList();
-        }
+    public double Capacity
+    {
+      get
+      {
+        return _rows;
+      }
+    }
 
-        public override string ToString()
-        {
-            StringBuilder output = new StringBuilder();
+    public void AddResource(IComposting plant)
+    {
+      _plants.Add(plant);
+    }
 
-            output.Append($"Natural field {Name}");
-            var plantGroups = CreateGroup();
-            if (_plants.Count > 0)
-            {
-                output.Append(" (");
-                for (int i = 0; i < plantGroups.Count; i++)
-                {
-                    int count = plantGroups[i].Count();
-                    string s = (count > 1) ? "s" : "";
-                    output.Append($"{count} {plantGroups[i].Key}{s}");
-                    if (i + 1 < plantGroups.Count)
-                    {
-                        output.Append(", ");
-                    }
-                    else
-                    {
-                        output.Append(")\n");
-                    }
-                }
+    public void AddResource(List<IComposting> plants)
+    {
+      _plants.AddRange(plants);
+    }
 
-            }
-            else output.Append("\n");
-
-            return output.ToString();
-        }
+    public void ListByType()
+    {
+      var groupedPlants = _plants.GroupBy(plant => plant.Type);
+      foreach (IGrouping<string, IComposting> plant in groupedPlants)
+      {
+        System.Console.WriteLine($"{plant.Key} {plant.Count() * _plantsPerRow}");
+      }
 
     }
+
+    public void SendToComposter(int numToProcess, string type, Farm farm)
+    {
+      for (int i = 0; i < numToProcess; i++)
+      {
+        var selectedPlant = _plants.Find(plant => plant.Type == type);
+        farm.Composter.AddToHopper(selectedPlant);
+        _plants.Remove(selectedPlant);
+      }
+    }
+
+
+    public List<IGrouping<string, IComposting>> CreateCompostList()
+    {
+      return _plants.GroupBy(animal => animal.Type).ToList();
+    }
+
+    public override string ToString()
+    {
+      StringBuilder output = new StringBuilder();
+
+      output.Append($"Natural field {Name}");
+      var plantGroups = CreateCompostList();
+      if (_plants.Count > 0)
+      {
+        output.Append(" (");
+        for (int i = 0; i < plantGroups.Count; i++)
+        {
+          int count = plantGroups[i].Count();
+          string s = (count > 1) ? "s" : "";
+          output.Append($"{count} {plantGroups[i].Key}{s}");
+          if (i + 1 < plantGroups.Count)
+          {
+            output.Append(", ");
+          }
+          else
+          {
+            output.Append(")\n");
+          }
+        }
+
+      }
+      else output.Append("\n");
+
+      return output.ToString();
+    }
+
+  }
 }
