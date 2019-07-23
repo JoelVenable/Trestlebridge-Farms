@@ -3,11 +3,13 @@ using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Animals
 {
-    public class Duck : IResource, IEggProducing, IFeatherProducing
+    public class Duck : IResource, IEggProducing, IFeatherProducing, IMeatProducing
     {
         private Guid _id = Guid.NewGuid();
 
         private int _eggsProduced = 6;
+
+        private double _meatProduced = 1.2;
 
         private double _feathersProduced = 0.75;
 
@@ -28,6 +30,12 @@ namespace Trestlebridge.Models.Animals
         {
             return 6;
         }
+
+        public double Butcher()
+        {
+            return _meatProduced;
+        }
+
 
         double IFeatherProducing.Pluck()
         {
