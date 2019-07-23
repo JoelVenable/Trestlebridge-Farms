@@ -7,62 +7,69 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-  public class ChickenHouse : IFacility<Chicken>
-  {
-    public int _capacity = 15;
-
-    private Guid _id = Guid.NewGuid();
-
-    public string Name { get; set; }
-
-    public int NumAnimals
+    public class ChickenHouse : IFacility<Chicken>, IGathering
     {
-      get
-      {
-        return _animals.Count;
-      }
-    }
+        public int _capacity = 15;
 
-    public int AvailableSpots
-    {
-      get
-      {
-        return _capacity - _animals.Count;
-      }
-    }
+        private Guid _id = Guid.NewGuid();
+
+        public string Name { get; set; }
+
+        public int NumAnimals
+        {
+            get
+            {
+                return _chickens.Count;
+            }
+        }
+
+        public int AvailableSpots
+        {
+            get
+            {
+                return _capacity - _chickens.Count;
+            }
+        }
 
 
-    private List<Chicken> _animals = new List<Chicken>();
+        private List<IEggProducing> _chickens = new List<IEggProducing>();
 
-    public double Capacity
-    {
-      get
-      {
-        return _capacity;
-      }
-    }
+        public double Capacity
+        {
+            get
+            {
+                return _capacity;
+            }
+        }
 
-    public void AddResource(Chicken chicken)
-    {
-      _animals.Add(chicken);
-    }
+        public void AddResource(Chicken chicken)
+        {
+            _chickens.Add(chicken);
+        }
 
-    public void AddResource(List<Chicken> chickens)
-    {
-      _animals.AddRange(chickens);
-    }
+        public void AddResource(List<Chicken> chickens)
+        {
+            _chickens.AddRange(chickens);
+        }
 
-        
+        public void SendToBasket(int numToProcess, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                farm.EggGatherer.AddToBasket(_chickens[i]);
+            }
+        }
 
-    public override string ToString()
-    {
-      StringBuilder output = new StringBuilder();
-      string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
-            string s = _animals.Count > 1 ? "s" : "";
-            string count = _animals.Count > 0 ? $"({ this._animals.Count} chickens{ s})" : "";
+
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+            string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
+            string s = _chickens.Count > 1 ? "s" : "";
+            string count = _chickens.Count > 0 ? $"({ this._chickens.Count} chickens{ s})" : "";
             output.Append($"Chicken House {Name} {count}\n");
 
-      return output.ToString();
+            return output.ToString();
+        }
     }
-  }
 }

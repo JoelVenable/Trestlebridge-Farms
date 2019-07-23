@@ -6,17 +6,17 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class DuckHouse : IFacility<Duck>
+    public class DuckHouse : IFacility<Duck>, IGathering
     {
         private int _capacity = 12;
         private Guid _id = Guid.NewGuid();
-        private List<Duck> _animals = new List<Duck>();
+        private List<IEggProducing> _ducks = new List<IEggProducing>();
 
         public int AvailableSpots
         {
             get
             {
-                return _capacity - _animals.Count;
+                return _capacity - _ducks.Count;
             }
         }
 
@@ -26,7 +26,7 @@ namespace Trestlebridge.Models.Facilities
         {
             get
             {
-                return _animals.Count;
+                return _ducks.Count;
             }
         }
 
@@ -41,20 +41,28 @@ namespace Trestlebridge.Models.Facilities
 
         public void AddResource(Duck duck)
         {
-            _animals.Add(duck);
+            _ducks.Add(duck);
         }
 
         public void AddResource(List<Duck> ducks)
         {
-            _animals.AddRange(ducks);
+            _ducks.AddRange(ducks);
+        }
+
+        public void SendToBasket(int numToProcess, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                farm.EggGatherer.AddToBasket(_ducks[i]);
+            }
         }
 
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();
             string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
-            string s = _animals.Count > 1 ? "s" : "";
-            string count = _animals.Count > 0 ? $"({ this._animals.Count} duck{ s})" : "";
+            string s = _ducks.Count > 1 ? "s" : "";
+            string count = _ducks.Count > 0 ? $"({ this._ducks.Count} duck{ s})" : "";
 
             output.Append($"Duck House {Name} {count}\n");
 
