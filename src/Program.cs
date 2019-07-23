@@ -22,15 +22,13 @@ namespace Trestlebridge
 
         public static void ShowMessage(string message)
         {
-            Console.Clear();
             DisplayBanner();
             Console.WriteLine(message);
-            System.Threading.Thread.Sleep(2000);
+            Console.ReadLine();
         }
 
         public static string GetInput(string message)
         {
-            Console.Clear();
             Program.DisplayBanner();
             Console.WriteLine(message);
             Console.WriteLine();
@@ -45,6 +43,7 @@ namespace Trestlebridge
 
             Farm Trestlebridge = new Farm();
 
+
             while (true)
             {
                 DisplayBanner();
@@ -52,7 +51,8 @@ namespace Trestlebridge
                 Console.WriteLine("2. Purchase Animals");
                 Console.WriteLine("3. Purchase Seeds");
                 Console.WriteLine("4. Display Farm Status");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("5. Process Resources");
+                Console.WriteLine("6. Exit");
                 Console.WriteLine();
 
                 Console.WriteLine("Choose a FARMS option");
@@ -83,6 +83,11 @@ namespace Trestlebridge
                     Console.ReadLine();
                 }
                 else if (option == "5")
+                {
+                    DisplayBanner();
+                    ProcessResources.CollectInput(Trestlebridge);
+                }
+                else if (option == "6")
                 {
                     Console.WriteLine("Today is a great day for farming");
                     break;

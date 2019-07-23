@@ -15,7 +15,7 @@ namespace Trestlebridge.Models.Plants
             return _kgComposted;
         }
 
-        public double Harvest()
+        public int Harvest()
         {
             return _seedsProduced;
         }
