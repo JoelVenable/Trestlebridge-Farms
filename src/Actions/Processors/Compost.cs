@@ -34,15 +34,6 @@ namespace Trestlebridge.Actions
 
             farm.Composter.Process();
 
-            // if (selectedGroup.Key == "Sunflower")
-            // {
-            //   farm.SeedHarvester.SunflowerSeeds += ProcessedSeeds;
-            // }
-            // else if (selectedGroup.Key == "Sesame")
-            // {
-            //   farm.SeedHarvester.SesameSeeds += ProcessedSeeds;
-
-            // }
         }
 
 
@@ -68,7 +59,7 @@ namespace Trestlebridge.Actions
                     }
                 }
                 Console.WriteLine();
-                Console.WriteLine("Which facility has the plants you want to process?");
+                Console.WriteLine("Which facility has the compost you want to process?");
 
                 Console.Write("> ");
                 string fieldChoice = Console.ReadLine();
@@ -83,7 +74,7 @@ namespace Trestlebridge.Actions
 
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Program.ShowMessage("Invalid Input");
                 }
@@ -128,7 +119,7 @@ namespace Trestlebridge.Actions
                     choice = Int32.Parse(groupType);
                     return groups[choice - 1];
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     doOver = true;
                 }
@@ -176,7 +167,7 @@ namespace Trestlebridge.Actions
                     }
                     else throw new Exception();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Program.ShowMessage("Invalid entry");
                     doOver = true;
@@ -196,7 +187,7 @@ namespace Trestlebridge.Actions
             {
                 doOver = false;
                 Program.DisplayBanner();
-                Console.WriteLine($"Composter has {capacity} available capacity for plants and {capacity / 2} for goat compost.");
+                Console.WriteLine($"Composter has space {capacity} plants and {capacity / 2} goat compost.");
                 Console.WriteLine();
                 Console.WriteLine("Would you like to add more resources?");
                 Console.WriteLine();

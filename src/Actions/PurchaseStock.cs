@@ -12,27 +12,38 @@ namespace Trestlebridge.Actions
     {
         public static void CollectInput(Farm farm)
         {
-            Console.WriteLine("1. Chicken");
-            Console.WriteLine("2. Cow");
-            Console.WriteLine("3. Duck");
-            Console.WriteLine("4. Goat");
-            Console.WriteLine("5. Ostrich");
-            Console.WriteLine("6. Pig");
-            Console.WriteLine("7. Sheep");
-            Console.WriteLine();
-            Console.WriteLine("What are you buying today?");
 
-            Console.Write("> ");
-            string choice = Console.ReadLine();
             bool doOver;
             do
             {
+                Console.WriteLine("1. Chicken");
+                Console.WriteLine("2. Cow");
+                Console.WriteLine("3. Duck");
+                Console.WriteLine("4. Goat");
+                Console.WriteLine("5. Ostrich");
+                Console.WriteLine("6. Pig");
+                Console.WriteLine("7. Sheep");
+                Console.WriteLine();
+                Console.WriteLine("What are you buying today?");
+
+                Console.Write("> ");
+                string choice = Console.ReadLine();
                 doOver = false;
                 List<ChickenHouse> availableChickenHouses = FilterChickenHouses(farm);
                 List<DuckHouse> availableDuckHouses = FilterDuckHouses(farm);
                 List<GrazingField> availableGrazingFields = FilterGrazingFields(farm);
+                int parsedChoice;
+                try
+                {
 
-                switch (Int32.Parse(choice))
+                    parsedChoice = Int32.Parse(choice);
+                }
+                catch (Exception)
+                {
+                    parsedChoice = 0;
+                }
+
+                switch (parsedChoice)
                 {
                     case 1:
                         // Chicken
@@ -63,7 +74,7 @@ namespace Trestlebridge.Actions
                         // goat
                         if (availableGrazingFields.Count > 0)
                         {
-                        ChooseGrazingField.CollectInput(availableGrazingFields, new Goat());
+                            ChooseGrazingField.CollectInput(availableGrazingFields, new Goat());
 
                         }
                         else Program.ShowMessage("No available facilities for this animal.");
@@ -91,7 +102,7 @@ namespace Trestlebridge.Actions
                         if (availableGrazingFields.Count > 0)
                         {
                             ChooseGrazingField.CollectInput(availableGrazingFields, new Sheep());
-                        
+
                         }
                         else Program.ShowMessage("No available facilities for this animal.");
                         break;
@@ -104,11 +115,11 @@ namespace Trestlebridge.Actions
 
 
         }
-            static private List<ChickenHouse> FilterChickenHouses(Farm farm)
-            {
-                if (farm.ChickenHouses.Count == 0) return new List<ChickenHouse>();
+        static private List<ChickenHouse> FilterChickenHouses(Farm farm)
+        {
+            if (farm.ChickenHouses.Count == 0) return new List<ChickenHouse>();
             return farm.ChickenHouses.Where(house => house.AvailableSpots > 0).ToList();
-            }
+        }
 
         static private List<DuckHouse> FilterDuckHouses(Farm farm)
         {
