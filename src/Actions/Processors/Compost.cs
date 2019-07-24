@@ -9,11 +9,20 @@ namespace Trestlebridge.Actions
 {
     public class Compost
     {
+        private static List<IGathering> _facilities = new List<IGathering>();
+
+
         public static void CollectInput(Farm farm)
         {
             do
             {
-
+                UpdateFacilities(farm);
+                if (_facilities.Count == 0)
+                {
+                    Program.ShowMessage("No available facilities to process.");
+                    return;
+                }
+                
                 // Select a field
                 ICompostProducing selectedField = SelectField(farm);
 
@@ -237,6 +246,26 @@ namespace Trestlebridge.Actions
 
             // Never runs.
             return false;
+
+        }
+
+        static private void UpdateFacilities(Farm farm)
+        {
+            List<IGathering> output = new List<IGathering>();
+            output.AddRange(farm.ChickenHouses);
+            output.AddRange(farm.DuckHouses);
+            output.AddRange(farm.GrazingFields);
+
+            _facilities = output
+                .Where(facility =>
+                {
+                    if (facility is GrazingField gf)
+                    {
+                        return gf.NumOstriches > 0;
+                    }
+                    return facility.NumAnimals > 0;
+                })
+                .ToList();
 
         }
     }

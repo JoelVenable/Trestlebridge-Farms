@@ -9,8 +9,17 @@ namespace Trestlebridge.Actions
 {
   public class HarvestSeeds
   {
-    public static void CollectInput(Farm farm)
+        private static List<PlowedField> _facilities = new List<PlowedField>();
+
+
+        public static void CollectInput(Farm farm)
     {
+
+            if (_facilities.Count == 0)
+            {
+                Program.ShowMessage("No available fields to process.");
+                return;
+            }
       do
       {
 
@@ -180,16 +189,12 @@ namespace Trestlebridge.Actions
         {
           case "Y":
             return true;
-            break;
           case "y":
             return true;
-            break;
           case "N":
             return false;
-            break;
           case "n":
             return false;
-            break;
           default:
             Program.ShowMessage("Invalid input.  Please try again.");
             doOver = true;
@@ -202,6 +207,11 @@ namespace Trestlebridge.Actions
       return false;
 
     }
-  }
+
+        static private void UpdateFacilities(Farm farm)
+        {
+            _facilities = farm.PlowedFields.Where(field => field.currentPlants > 0).ToList();
+        }
+    }
 
 }

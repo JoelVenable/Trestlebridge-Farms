@@ -16,7 +16,12 @@ namespace Trestlebridge.Actions
         {
             do
             {
-
+                UpdateFacilities(farm);
+                if (_facilities.Count == 0)
+                {
+                    Program.ShowMessage("No available facilities to process.");
+                    return;
+                }
                 // Select a house
                 IGathering selectedHouse = SelectHouse(farm);
 
