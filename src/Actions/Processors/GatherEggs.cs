@@ -48,15 +48,15 @@ namespace Trestlebridge.Actions
                     var facility = _facilities[i];
                     if (facility is ChickenHouse && farm.EggGatherer.Capacity >= 7)
                     {
-                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} animals)");
+                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} chickens)");
                     }
                     else if (facility is DuckHouse && farm.EggGatherer.Capacity >= 6)
                     {
-                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} animals)");
+                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} ducks)");
                     }
                     else if (facility is GrazingField && farm.EggGatherer.Capacity >= 3)
                     {
-                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} animals)");
+                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} ostriches)");
                     }
                     else
                     {
@@ -193,7 +193,8 @@ namespace Trestlebridge.Actions
             output.AddRange(farm.GrazingFields);
 
             _facilities = output
-                .Where(facility => {
+                .Where(facility =>
+                {
                     if (facility is GrazingField gf)
                     {
                         return gf.NumOstriches > 0;
