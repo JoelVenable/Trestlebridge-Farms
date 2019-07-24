@@ -4,43 +4,38 @@ using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Animals
 {
-  public class Chicken : IResource, IMeatProducing, IFeatherProducing, IEggProducing
-  {
-    private Guid _id = Guid.NewGuid();
-    private double _meatProduced = 1.7;
-
-    private double _feathersProduced = .5;
-
-    private int _eggsProduced = 7;
-
-    private string _shortId
+    public class Chicken : IResource, IMeatProducing, IFeatherProducing, IEggProducing
     {
-      get
-      {
-        return this._id.ToString().Substring(this._id.ToString().Length - 6);
-      }
-    }
-    public string Type { get; } = "Chicken";
+        private Guid _id = Guid.NewGuid();
+        private double _meatProduced = 1.7;
 
-    public double Butcher()
-    {
-      return _meatProduced;
-    }
+        private double _feathersProduced = .5;
 
-    public int Gather()
-    {
-      throw new NotImplementedException();
-    }
+        private int _eggsProduced = 7;
 
-    public double Pluck()
-    {
-      return _feathersProduced;
-    }
+        public string Type { get; } = "Chicken";
 
-    public override string ToString()
-    {
-      return "The Chicken goes: Cluck!";
+        public double Butcher()
+        {
+            return _meatProduced;
+        }
+
+        public double Pluck()
+        {
+            return _feathersProduced;
+        }
+        public int EggsProduced { get; } = 7;
+
+
+        public int Gather()
+        {
+            return EggsProduced;
+        }
+
+        public override string ToString()
+        {
+            return "The Chicken goes: Cluck!";
+        }
     }
-  }
 
 }

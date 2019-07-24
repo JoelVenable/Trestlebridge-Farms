@@ -8,7 +8,7 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class ChickenHouse : IFacility<Chicken>, IMeatFacility
+    public class ChickenHouse : IFacility<Chicken>, IMeatFacility, IGathering
     {
         public int _capacity = 15;
 
@@ -20,15 +20,15 @@ namespace Trestlebridge.Models.Facilities
         {
             get
             {
-                return _animals.Count;
+                return _chickens.Count;
             }
         }
-        
+
         public int NumMeatAnimals
         {
             get
             {
-                return _animals.Count;
+                return _chickens.Count;
             }
         }
 
@@ -37,12 +37,11 @@ namespace Trestlebridge.Models.Facilities
         {
             get
             {
-                return _capacity - _animals.Count;
+                return _capacity - _chickens.Count;
             }
         }
 
-
-        private List<Chicken> _animals = new List<Chicken>();
+        private List<Chicken> _chickens = new List<Chicken>();
 
         public double Capacity
         {
@@ -54,13 +53,27 @@ namespace Trestlebridge.Models.Facilities
 
         public void AddResource(Chicken chicken)
         {
-            _animals.Add(chicken);
+            _chickens.Add(chicken);
         }
 
         public void AddResource(List<Chicken> chickens)
         {
-            _animals.AddRange(chickens);
+            _chickens.AddRange(chickens);
         }
+
+        public void SendToBasket(int numToProcess, Farm farm)
+        {
+            // var chicken = new Chicken();
+            for (int i = 0; i < numToProcess; i++)
+            {
+                farm.EggGatherer.AddToBasket(_chickens[i].EggsProduced);
+                // farm.EggGatherer.GatheredAnimals(chicken);
+            }
+        }
+
+
+
+        // private List<Chicken> _animals = new List<Chicken>();
 
 
 
@@ -68,8 +81,8 @@ namespace Trestlebridge.Models.Facilities
         {
             StringBuilder output = new StringBuilder();
             string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
-            string s = _animals.Count > 1 ? "s" : "";
-            string count = _animals.Count > 0 ? $"({ this._animals.Count} chickens{ s})" : "";
+            string s = _chickens.Count > 1 ? "s" : "";
+            string count = _chickens.Count > 0 ? $"({ this._chickens.Count} chickens{ s})" : "";
             output.Append($"Chicken House {Name} {count}\n");
 
             return output.ToString();
@@ -77,9 +90,9 @@ namespace Trestlebridge.Models.Facilities
 
         public List<IGrouping<string, IMeatProducing>> CreateMeatGroup()
         {
-            return _animals
-            .ConvertAll(animal => (IMeatProducing)animal)
-            .GroupBy(animal => animal.Type).ToList();
+            return _chickens
+            .ConvertAll(chicken => (IMeatProducing)chicken)
+            .GroupBy(chicken => chicken.Type).ToList();
             // return new List<IGrouping<string, IMeatProducing>> (){
             //   new IGrouping<string, IMeatProducing>(){
 
@@ -91,9 +104,9 @@ namespace Trestlebridge.Models.Facilities
         {
             for (int i = 0; i < numToProcess; i++)
             {
-                var selectedAnimal = _animals.Find(animal => animal.Type == type);
-                farm.MeatProcessor.AddToHopper((IMeatProducing)selectedAnimal);
-                _animals.Remove(selectedAnimal);
+                var selectedChicken = _chickens.Find(chicken => chicken.Type == type);
+                farm.MeatProcessor.AddToHopper((IMeatProducing)selectedChicken);
+                _chickens.Remove(selectedChicken);
             }
         }
     }
