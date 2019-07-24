@@ -60,5 +60,20 @@ namespace Trestlebridge.Models.Processors
       _hopper.Clear();
     }
 
-  }
+
+        public override string ToString()
+        {
+            string output = "Seed Processor has processed: \n";
+            output += BuildString(SesameSeeds, "sesame");
+            output += BuildString(SunflowerSeeds, "sunflower");
+            output += "\n";
+            return output;
+        }
+
+        static private string BuildString(double number, string type)
+        {
+            string s = number > 1 ? "s" : "";
+            return $"    ({number} {type} seed{s}) \n";
+        }
+    }
 }

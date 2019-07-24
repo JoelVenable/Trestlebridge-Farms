@@ -84,6 +84,22 @@ namespace Trestlebridge.Models.Processors
         }
 
 
+        public override string ToString()
+        {
+            string output = "Egg gatherer has processed: \n";
+            output += BuildString(ChickenEggs, "Chicken");
+            output += BuildString(DuckEggs, "Duck");
+            output += BuildString(OstrichEggs, "Ostrich");
+            output += "\n";
+            return output;
+        }
+
+        static private string BuildString(int number, string type)
+        {
+            string s = number > 1 ? "s" : "";
+
+            return $"    ({number} {type} egg{s}) \n";
+        }
 
     }
 }

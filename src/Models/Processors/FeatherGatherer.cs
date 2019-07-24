@@ -39,13 +39,29 @@ namespace Trestlebridge.Models.Processors
       ChickenFeathers += chickenFeathers;
       DuckFeathers += duckFeathers;
 
-      string message = "Plucking birds...\n";
+      string message = "Plucking birds...\n\n";
 
       if (chickenFeathers > 0) message += $"{chickenFeathers} Kg of Chicken feathers were plucked.\n";
-      if (duckFeathers > 0) message += $"{duckFeathers} Kg of Duck feathers were plucked.\n";
+      if (duckFeathers > 0) message += $"{duckFeathers} Kg of Duck feathers were plucked.\n\n";
 
       return message;
     }
 
-  }
+
+
+        public override string ToString()
+        {
+            string output = "Feather Gatherer has processed: \n";
+            output += BuildString(ChickenFeathers, "Chicken");
+            output += BuildString(DuckFeathers, "Duck");
+            output += "\n";
+            return output;
+        }
+
+        static private string BuildString(double number, string type)
+        {
+
+            return $"    ({number} Kgs of {type} feathers) \n";
+        }
+    }
 }
