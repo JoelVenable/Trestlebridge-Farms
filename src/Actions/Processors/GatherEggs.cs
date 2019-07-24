@@ -17,11 +17,6 @@ namespace Trestlebridge.Actions
                 // Select a house
                 IGathering selectedHouse = SelectHouse(farm);
 
-
-                // Select a resource type
-                // var groups = selectedHouse.CreateGroup();
-                // IGrouping<string, IEggProducing> selectedGroup = SelectResourceType(groups);
-
                 // Select quantity of resources to process
                 int quantity = SelectQuantity(farm.EggGatherer.Capacity, selectedHouse);
 
@@ -32,16 +27,6 @@ namespace Trestlebridge.Actions
             } while (AddMore(farm.EggGatherer.Capacity));
 
             farm.EggGatherer.Gather();
-
-            // if (selectedGroup.Key == "Sunflower")
-            // {
-            //   farm.SeedHarvester.SunflowerSeeds += ProcessedSeeds;
-            // }
-            // else if (selectedGroup.Key == "Sesame")
-            // {
-            //   farm.SeedHarvester.SesameSeeds += ProcessedSeeds;
-
-            // }
         }
 
 
@@ -61,7 +46,22 @@ namespace Trestlebridge.Actions
 
                 for (var i = 0; i < houses.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {houses[i].Name} ({houses[i].NumAnimals} animals)");
+                    if (houses[i] is ChickenHouse && farm.EggGatherer.Capacity >= 7)
+                    {
+                        Console.WriteLine($"{i + 1}. {houses[i].Name} ({houses[i].NumAnimals} animals)");
+                    }
+                    else if (houses[i] is DuckHouse && farm.EggGatherer.Capacity >= 6)
+                    {
+                        Console.WriteLine($"{i + 1}. {houses[i].Name} ({houses[i].NumAnimals} animals)");
+                    }
+                    else if (houses[i] is GrazingField && farm.EggGatherer.Capacity >= 3)
+                    {
+                        Console.WriteLine($"{i + 1}. {houses[i].Name} ({houses[i].NumAnimals} animals)");
+                    }
+                    else
+                    {
+                        farm.EggGatherer.Gather();
+                    }
                 }
                 Console.WriteLine();
                 Console.WriteLine("Which facility has the animals you want to collect eggs from?");
@@ -85,43 +85,6 @@ namespace Trestlebridge.Actions
             //  Should never get here.
             return null;
         }
-
-
-        // private static IGrouping<string, IEggProducing> SelectResourceType(List<IGrouping<string, IEggProducing>> groups)
-        // {
-        //     Program.DisplayBanner();
-
-        //     for (int i = 0; i < groups.Count; i++)
-        //     {
-        //         string s = groups.Count > 1 ? "s" : "";
-        //         System.Console.WriteLine($"{i + 1}. {groups[i].Key}s ({groups[i].Count()} animals{s} available)");
-        //     }
-        //     bool doOver;
-
-        //     do
-        //     {
-        //         doOver = false;
-        //         Console.WriteLine();
-        //         Console.WriteLine("What resource should be processed?");
-
-        //         Console.Write("> ");
-        //         string groupType = Console.ReadLine();
-        //         int choice;
-        //         try
-        //         {
-        //             choice = Int32.Parse(groupType);
-        //             return groups[choice - 1];
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             doOver = true;
-        //         }
-        //     } while (doOver);
-
-        //     // This line will never run
-        //     return null;
-
-        // }
 
         private static int SelectQuantity(int capacity, IGathering house)
         {
