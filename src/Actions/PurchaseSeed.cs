@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models;
 using Trestlebridge.Models.Animals;
@@ -13,6 +15,7 @@ namespace Trestlebridge.Actions
         {
 
             bool doOver;
+
             do
             {
                 Console.WriteLine("1. Sesame");
@@ -26,7 +29,8 @@ namespace Trestlebridge.Actions
                 string choice = Console.ReadLine();
 
                 doOver = false;
-
+                List<PlowedField> availablePlowedFields = FilteredPlowedFields(farm);
+                List<NaturalField> availableNaturalFields = FilteredNaturalFields(farm);
                 int parsedChoice;
                 try
                 {
@@ -41,47 +45,81 @@ namespace Trestlebridge.Actions
                 switch (parsedChoice)
                 {
                     case 1:
-                        ChoosePlowedField.CollectInput(farm, new Sesame());
+                        if (availablePlowedFields.Count == 0)
+                        {
+                            ChoosePlowedField.CollectInput(farm, new Sesame());
+                        }
+                        else Program.ShowMessage("No available facilities for this animal.");
                         break;
                     case 2:
-                        ChooseNaturalField.CollectInput(farm, new Wildflower());
+                        if (availableNaturalFields.Count == 0)
+                        {
+                            ChooseNaturalField.CollectInput(farm, new Wildflower());
+                        }
+                        else Program.ShowMessage("No available facilities for this animal.");
                         break;
                     case 3:
+                        if (availablePlowedFields.Count == 0 && availableNaturalFields.Count == 0)
                         {
-                            Console.Clear();
-                            Program.DisplayBanner();
-                            Console.WriteLine("1. Natural Field");
-                            Console.WriteLine("2. Plowed Field");
-                            Console.WriteLine();
-                            Console.WriteLine("Choose What type of Field to plant your Sunflowers in:");
-                            Console.Write("> ");
-                            string fieldType = Console.ReadLine();
-
-                            switch (Int32.Parse(fieldType))
-                            {
-                                case 1:
-                                    ChooseNaturalField.CollectInput(farm, new Sunflower());
-                                    break;
-                                case 2:
-                                    ChoosePlowedField.CollectInput(farm, new Sunflower());
-                                    break;
-                                default:
-                                    break;
-
-                            }
+                            Program.ShowMessage("No available facilities for this animal.");
                             break;
+                        }
+                        else
+                        {
+
+                            {
+                                Console.Clear();
+                                Program.DisplayBanner();
+                                if (availableNaturalFields.Count > 0)
+                                {
+                                    Console.WriteLine("1. Natural Field");
+                                }
+                                if (availablePlowedFields.Count > 0 && availableNaturalFields.Count > 0)
+                                {
+                                    Console.WriteLine("2. Plowed Field");
+                                }
+                                if (availablePlowedFields.Count > 0 && availableNaturalFields.Count == 0)
+                                {
+                                    Console.WriteLine("1. Plowed Field");
+                                }
+                                Console.WriteLine();
+                                Console.WriteLine("Choose What type of Field to plant your Sunflowers in:");
+                                Console.Write("> ");
+                                string fieldType = Console.ReadLine();
+
+                                switch (Int32.Parse(fieldType))
+                                {
+                                    case 1:
+                                        ChooseNaturalField.CollectInput(farm, new Sunflower());
+                                        break;
+                                    case 2:
+                                        ChoosePlowedField.CollectInput(farm, new Sunflower());
+                                        break;
+                                    default:
+                                        break;
+
+                                }
+                                break;
+                            }
                         }
                     default:
                         Program.ShowMessage("Invalid selection.  Please choose again.");
                         doOver = true;
                         break;
                 }
+
             } while (doOver);
         }
 
-        internal static void CollectInput(object trestlebridge)
+        static private List<PlowedField> FilteredPlowedFields(Farm farm)
         {
-            throw new NotImplementedException();
+            if (farm.PlowedFields.Count == 0) return new List<PlowedField>();
+            return farm.PlowedFields.Where(field => field.AvailableSpots > 0).ToList();
+        }
+        static private List<NaturalField> FilteredNaturalFields(Farm farm)
+        {
+            if (farm.NaturalFields.Count == 0) return new List<NaturalField>();
+            return farm.NaturalFields.Where(field => field.AvailableSpots > 0).ToList();
         }
     }
 }

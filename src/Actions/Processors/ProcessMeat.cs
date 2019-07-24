@@ -37,7 +37,11 @@ namespace Trestlebridge.Actions
           UpdateFacilities(farm);
           if (_facilities.Count > 0) doOver = AddMore(farm.MeatProcessor.Capacity);
         }
-
+        else
+        {
+          Program.ShowMessage("No available facilities to process.");
+          return;
+        }
 
 
       } while (doOver);
