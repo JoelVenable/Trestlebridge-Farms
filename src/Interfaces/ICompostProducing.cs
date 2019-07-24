@@ -1,7 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
+using Trestlebridge.Models;
+
 namespace Trestlebridge.Interfaces
 {
-    public interface ICompostProducing
-    {
-        double Compost();
-    }
+  public interface ICompostProducing
+  {
+    string Name { get; set; }
+    int CompostAmmount { get; }
+
+    void SendToComposter(int numToProcess, string type, Farm farm);
+
+    List<IGrouping<string, IComposting>> CreateCompostList();
+  }
 }

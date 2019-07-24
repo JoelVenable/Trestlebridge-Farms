@@ -4,6 +4,7 @@ namespace Trestlebridge.Interfaces
     {
         string Type { get; }
 
+
         double Compost();
     }
 }

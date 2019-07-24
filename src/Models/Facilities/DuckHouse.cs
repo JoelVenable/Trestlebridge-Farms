@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class DuckHouse : IFacility<Duck>, IGathering
+    public class DuckHouse : IFacility<Duck>, IMeatFacility, IGathering
     {
         private int _capacity = 12;
         private Guid _id = Guid.NewGuid();
-        private List<IEggProducing> _ducks = new List<IEggProducing>();
+        private List<Duck> _ducks = new List<Duck>();
 
         public int AvailableSpots
         {
@@ -29,6 +30,15 @@ namespace Trestlebridge.Models.Facilities
                 return _ducks.Count;
             }
         }
+
+        public int NumMeatAnimals
+        {
+            get
+            {
+                return _ducks.Count;
+            }
+        }
+
 
 
         public double Capacity
@@ -51,11 +61,11 @@ namespace Trestlebridge.Models.Facilities
 
         public void SendToBasket(int numToProcess, Farm farm)
         {
-            var duck = new Duck();
+            // var duck = new Duck();
             for (int i = 0; i < numToProcess; i++)
             {
-                farm.EggGatherer.AddToBasket(duck.EggsProduced);
-                farm.EggGatherer.GatheredAnimals(duck);
+                farm.EggGatherer.AddToBasket(_ducks[i].EggsProduced);
+                // farm.EggGatherer.GatheredAnimals(duck);
             }
         }
 
@@ -69,6 +79,28 @@ namespace Trestlebridge.Models.Facilities
             output.Append($"Duck House {Name} {count}\n");
 
             return output.ToString();
+        }
+
+        public List<IGrouping<string, IMeatProducing>> CreateMeatGroup()
+        {
+            return _ducks
+            .ConvertAll(animal => (IMeatProducing)animal)
+            .GroupBy(animal => animal.Type).ToList();
+            // return new List<IGrouping<string, IMeatProducing>> (){
+            //   new IGrouping<string, IMeatProducing>(){
+
+            //   }
+            // };
+        }
+
+        public void SendToHopper(int numToProcess, string type, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                var selectedAnimal = _ducks.Find(animal => animal.Type == type);
+                farm.MeatProcessor.AddToHopper((IMeatProducing)selectedAnimal);
+                _ducks.Remove(selectedAnimal);
+            }
         }
     }
 }

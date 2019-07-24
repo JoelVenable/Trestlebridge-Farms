@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
@@ -7,7 +8,7 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class ChickenHouse : IFacility<Chicken>, IGathering
+    public class ChickenHouse : IFacility<Chicken>, IMeatFacility, IGathering
     {
         public int _capacity = 15;
 
@@ -23,6 +24,15 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
+        public int NumMeatAnimals
+        {
+            get
+            {
+                return _chickens.Count;
+            }
+        }
+
+
         public int AvailableSpots
         {
             get
@@ -31,8 +41,7 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-
-        private List<IEggProducing> _chickens = new List<IEggProducing>();
+        private List<Chicken> _chickens = new List<Chicken>();
 
         public double Capacity
         {
@@ -54,13 +63,18 @@ namespace Trestlebridge.Models.Facilities
 
         public void SendToBasket(int numToProcess, Farm farm)
         {
-            var chicken = new Chicken();
+            // var chicken = new Chicken();
             for (int i = 0; i < numToProcess; i++)
             {
-                farm.EggGatherer.AddToBasket(chicken.EggsProduced);
-                farm.EggGatherer.GatheredAnimals(chicken);
+                farm.EggGatherer.AddToBasket(_chickens[i].EggsProduced);
+                // farm.EggGatherer.GatheredAnimals(chicken);
             }
         }
+
+
+
+        // private List<Chicken> _animals = new List<Chicken>();
+
 
 
         public override string ToString()
@@ -72,6 +86,28 @@ namespace Trestlebridge.Models.Facilities
             output.Append($"Chicken House {Name} {count}\n");
 
             return output.ToString();
+        }
+
+        public List<IGrouping<string, IMeatProducing>> CreateMeatGroup()
+        {
+            return _chickens
+            .ConvertAll(chicken => (IMeatProducing)chicken)
+            .GroupBy(chicken => chicken.Type).ToList();
+            // return new List<IGrouping<string, IMeatProducing>> (){
+            //   new IGrouping<string, IMeatProducing>(){
+
+            //   }
+            // };
+        }
+
+        public void SendToHopper(int numToProcess, string type, Farm farm)
+        {
+            for (int i = 0; i < numToProcess; i++)
+            {
+                var selectedChicken = _chickens.Find(chicken => chicken.Type == type);
+                farm.MeatProcessor.AddToHopper((IMeatProducing)selectedChicken);
+                _chickens.Remove(selectedChicken);
+            }
         }
     }
 }
