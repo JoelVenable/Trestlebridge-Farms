@@ -12,11 +12,11 @@ namespace Trestlebridge
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine(@"
-        +-++-++-++-++-++-++-++-++-++-++-++-++-+
-        |T||r||e||s||t||l||e||b||r||i||d||g||e|
-        +-++-++-++-++-++-++-++-++-++-++-++-++-+
-                    |F||a||r||m||s|
-                    +-++-++-++-++-+");
+       +---------------------------------------+
+       | T  R  E  S  T  L  E  B  R  I  D  G  E |
+       +-----------+---------------+-----------+
+                   | F  A  R  M  S |
+                   +---------------+");
             Console.WriteLine();
         }
 
@@ -39,7 +39,7 @@ namespace Trestlebridge
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
 
             Farm Trestlebridge = new Farm();
 

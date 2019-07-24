@@ -82,15 +82,15 @@ namespace Trestlebridge.Models.Processors
 
 
 
-      message += "Butchering Animals...\n";
+      message += "Butchering Animals...\n\n";
 
 
-      if (chickenMeat > 0) message += $"{chickenMeat} Kg of Chicken meat was processed.\n";
-      if (cowMeat > 0) message += $"{cowMeat} Kg of Cow meat was processed.\n";
-      if (pigMeat > 0) message += $"{pigMeat} Kg of Pig meat was processed.\n";
-      if (sheepMeat > 0) message += $"{sheepMeat} Kg of Sheep meat was processed.\n";
-      if (ostrichMeat > 0) message += $"{ostrichMeat} Kg of Ostrich meat was processed.\n";
-      if (duckMeat > 0) message += $"{duckMeat} Kg of Duck meat was processed.\n";
+      if (chickenMeat > 0) message += $"{chickenMeat} Kgs of chicken was processed.\n";
+      if (cowMeat > 0) message += $"{cowMeat} Kgs of beef was processed.\n";
+      if (pigMeat > 0) message += $"{pigMeat} Kgs of pork was processed.\n";
+      if (sheepMeat > 0) message += $"{sheepMeat} Kgs of mutton was processed.\n";
+      if (ostrichMeat > 0) message += $"{ostrichMeat} Kgs of ostrich meat was processed.\n";
+      if (duckMeat > 0) message += $"{duckMeat} Kgs of duck meat was processed.\n";
 
 
       Program.ShowMessage(message);
@@ -106,7 +106,24 @@ namespace Trestlebridge.Models.Processors
 
 
 
+        public override string ToString()
+        {
+            string output = "Meat Processor has processed: \n";
+            output += BuildString(ChickenMeat, "chicken");
+            output += BuildString(CowMeat, "beef");
+            output += BuildString(PigMeat, "pork");
+            output += BuildString(SheepMeat, "mutton");
+            output += BuildString(OstrichMeat, "ostrich meat");
+            output += BuildString(DuckMeat, "duck meat");
+            output += "\n";
+            return output;
+        }
 
+        static private string BuildString(double number, string type)
+        {
 
-  }
+            return $"    ({number} Kgs of {type}) \n";
+        }
+
+    }
 }

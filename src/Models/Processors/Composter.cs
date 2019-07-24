@@ -65,5 +65,10 @@ namespace Trestlebridge.Models.Processors
             _hopper.Clear();
 
         }
+
+        public override string ToString()
+        {
+            return $"Composter has processed {KGCompost} Kgs of compost.\n";
+        }
     }
 }
