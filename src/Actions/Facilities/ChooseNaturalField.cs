@@ -12,7 +12,17 @@ namespace Trestlebridge.Actions
         {
             Console.Clear();
 
-            var fieldsWithSpace = farm.NaturalFields.FindAll(field => field.AvailableSpots > 0);
+            var fieldsWithSpace = farm.NaturalFields.Where(field => field.AvailableSpots > 0).ToList();
+            if (fieldsWithSpace.Count < 1)
+            {
+                Console.WriteLine("There are no Natural Fields with space available");
+                Console.WriteLine("Press any button to continue.");
+                Console.ReadLine();
+                Console.Clear();
+                Program.DisplayBanner();
+                PurchaseSeed.CollectInput(farm);
+
+            }
             for (int i = 0; i < fieldsWithSpace.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {fieldsWithSpace[i].Name} - Current Plants {fieldsWithSpace[i].currentPlants} | Available Rows: {fieldsWithSpace[i].AvailableSpots}");
@@ -32,7 +42,7 @@ namespace Trestlebridge.Actions
 
                 farm.NaturalFields[choice].AddResource(seed);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Program.ShowMessage("Invalid Input");
             }

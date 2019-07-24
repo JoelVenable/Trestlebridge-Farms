@@ -7,18 +7,18 @@ namespace Trestlebridge.Actions
     {
         public static void CollectInput(Farm farm)
         {
-            Console.WriteLine("1. Seed Harvester");
-            Console.WriteLine("2. Meat Processor");
-            Console.WriteLine("3. Egg Gatherer");
-            Console.WriteLine("4. Composter");
-            Console.WriteLine();
-            Console.WriteLine("Choose equipment to use");
 
-            Console.Write("> ");
-            string choice = Console.ReadLine();
             bool doOver;
             do
             {
+                Console.WriteLine("1. Seed Harvester");
+                Console.WriteLine("2. Meat Processor");
+                Console.WriteLine("3. Egg Gatherer");
+                Console.WriteLine("4. Composter");
+                Console.WriteLine();
+                Console.WriteLine("Choose equipment to use");
+                Console.Write("> ");
+                string choice = Console.ReadLine();
                 doOver = false;
                 int numChoice = 0;
                 try
@@ -27,7 +27,7 @@ namespace Trestlebridge.Actions
                 }
                 catch (Exception)
                 {
-                    doOver = true;
+                    numChoice = 0;
                 }
                 switch (numChoice)
                 {
