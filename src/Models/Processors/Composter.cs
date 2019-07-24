@@ -27,11 +27,14 @@ namespace Trestlebridge.Models.Processors
                 {
                     if (resource.Key == "Goat")
                     {
-                        goats = goats + 2;
+                        var ammount = resource.Count();
+                        goats = ammount * 2;
+
                     }
                     else
                     {
-                        plants++;
+                        var ammount = resource.Count();
+                        plants = ammount;
                     }
                 };
                 return 8 - (goats + plants);

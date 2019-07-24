@@ -185,10 +185,10 @@ namespace Trestlebridge.Models.Facilities
 
         public void SendToComposter(int numToProcess, string type, Farm farm)
         {
-            for (int i = 0; i < numToProcess; i++)
+            var selectedAnimals = _animals.FindAll(animal => animal.Type == "Goat").Take(numToProcess).ToList();
+            foreach (var animal in selectedAnimals)
             {
-                var selectedAnimal = _animals.Find(animal => animal.Type == type);
-                farm.Composter.AddToHopper((IComposting)selectedAnimal);
+                farm.Composter.AddToHopper((IComposting)animal);
             }
         }
     }
