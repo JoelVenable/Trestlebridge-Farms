@@ -64,8 +64,8 @@ namespace Trestlebridge.Models.Facilities
             // var duck = new Duck();
             for (int i = 0; i < numToProcess; i++)
             {
-                farm.EggGatherer.AddToBasket(_ducks[i].EggsProduced);
-                // farm.EggGatherer.GatheredAnimals(duck);
+                // farm.EggGatherer.AddToBasket(_ducks[i].EggsProduced);
+                farm.EggGatherer.GatheredAnimals(_ducks[i]);
             }
         }
 

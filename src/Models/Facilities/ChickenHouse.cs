@@ -66,8 +66,8 @@ namespace Trestlebridge.Models.Facilities
             // var chicken = new Chicken();
             for (int i = 0; i < numToProcess; i++)
             {
-                farm.EggGatherer.AddToBasket(_chickens[i].EggsProduced);
-                // farm.EggGatherer.GatheredAnimals(chicken);
+                // farm.EggGatherer.AddToBasket(_chickens[i].EggsProduced);
+                farm.EggGatherer.GatheredAnimals(_chickens[i]);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Trestlebridge.Models.Facilities
             StringBuilder output = new StringBuilder();
             string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
             string s = _chickens.Count > 1 ? "s" : "";
-            string count = _chickens.Count > 0 ? $"({ this._chickens.Count} chickens{ s})" : "";
+            string count = _chickens.Count > 0 ? $"({ this._chickens.Count} chicken{ s})" : "";
             output.Append($"Chicken House {Name} {count}\n");
 
             return output.ToString();

@@ -9,6 +9,9 @@ namespace Trestlebridge.Actions
 {
     public class GatherEggs
     {
+
+        private static List<IGathering> _facilities = new List<IGathering>();
+
         public static void CollectInput(Farm farm)
         {
             do
@@ -16,11 +19,6 @@ namespace Trestlebridge.Actions
 
                 // Select a house
                 IGathering selectedHouse = SelectHouse(farm);
-
-
-                // Select a resource type
-                // var groups = selectedHouse.CreateGroup();
-                // IGrouping<string, IEggProducing> selectedGroup = SelectResourceType(groups);
 
                 // Select quantity of resources to process
                 int quantity = SelectQuantity(farm.EggGatherer.Capacity, selectedHouse);
@@ -32,16 +30,6 @@ namespace Trestlebridge.Actions
             } while (AddMore(farm.EggGatherer.Capacity));
 
             farm.EggGatherer.Gather();
-
-            // if (selectedGroup.Key == "Sunflower")
-            // {
-            //   farm.SeedHarvester.SunflowerSeeds += ProcessedSeeds;
-            // }
-            // else if (selectedGroup.Key == "Sesame")
-            // {
-            //   farm.SeedHarvester.SesameSeeds += ProcessedSeeds;
-
-            // }
         }
 
 
@@ -53,15 +41,27 @@ namespace Trestlebridge.Actions
 
                 doOver = false;
                 Program.DisplayBanner();
+                UpdateFacilities(farm);
 
-                var houses = new List<IGathering>();
-                houses.AddRange(farm.ChickenHouses);
-                houses.AddRange(farm.DuckHouses);
-                houses.AddRange(farm.GrazingFields);
-
-                for (var i = 0; i < houses.Count; i++)
+                for (var i = 0; i < _facilities.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {houses[i].Name} ({houses[i].NumAnimals} animals)");
+                    var facility = _facilities[i];
+                    if (facility is ChickenHouse && farm.EggGatherer.Capacity >= 7)
+                    {
+                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} chickens)");
+                    }
+                    else if (facility is DuckHouse && farm.EggGatherer.Capacity >= 6)
+                    {
+                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} ducks)");
+                    }
+                    else if (facility is GrazingField && farm.EggGatherer.Capacity >= 3)
+                    {
+                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} ostriches)");
+                    }
+                    else
+                    {
+                        farm.EggGatherer.Gather();
+                    }
                 }
                 Console.WriteLine();
                 Console.WriteLine("Which facility has the animals you want to collect eggs from?");
@@ -72,10 +72,10 @@ namespace Trestlebridge.Actions
                 try
                 {
                     choice = Int32.Parse(fieldChoice);
-                    var house = houses[choice - 1];
+                    var house = _facilities[choice - 1];
                     return house;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Program.ShowMessage("Invalid Input");
                 }
@@ -86,51 +86,33 @@ namespace Trestlebridge.Actions
             return null;
         }
 
-
-        // private static IGrouping<string, IEggProducing> SelectResourceType(List<IGrouping<string, IEggProducing>> groups)
-        // {
-        //     Program.DisplayBanner();
-
-        //     for (int i = 0; i < groups.Count; i++)
-        //     {
-        //         string s = groups.Count > 1 ? "s" : "";
-        //         System.Console.WriteLine($"{i + 1}. {groups[i].Key}s ({groups[i].Count()} animals{s} available)");
-        //     }
-        //     bool doOver;
-
-        //     do
-        //     {
-        //         doOver = false;
-        //         Console.WriteLine();
-        //         Console.WriteLine("What resource should be processed?");
-
-        //         Console.Write("> ");
-        //         string groupType = Console.ReadLine();
-        //         int choice;
-        //         try
-        //         {
-        //             choice = Int32.Parse(groupType);
-        //             return groups[choice - 1];
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             doOver = true;
-        //         }
-        //     } while (doOver);
-
-        //     // This line will never run
-        //     return null;
-
-        // }
-
         private static int SelectQuantity(int capacity, IGathering house)
         {
             // int[] numbers = { capacity, group.Count() };
 
-            double maxAvailable = capacity;
+            int numAnimals = house.NumAnimals;
+            int eggsPerAnimal = 0;
+
+            if (house is GrazingField field)
+            {
+                numAnimals = field.NumOstriches;
+                eggsPerAnimal = 3;
+            }
+            if (house is ChickenHouse)
+            {
+                eggsPerAnimal = 7;
+            }
+            if (house is DuckHouse)
+            {
+                eggsPerAnimal = 6;
+            }
+
+            double maxAvailable = Math.Floor((double)capacity / eggsPerAnimal);
+            int[] animalArray = { (int)maxAvailable, numAnimals };
+            int maxAnimals = animalArray.Min();
+
             Program.DisplayBanner();
-            Console.WriteLine($"Selected {house.Name} with {house.NumAnimals} animals available to gather eggs from.");
-            Console.WriteLine($"Egg Gatherer has {capacity} eggs of available capacity.");
+            Console.WriteLine($"Egg Gatherer can gather eggs from {maxAnimals} animals.");
 
             bool doOver;
 
@@ -138,7 +120,7 @@ namespace Trestlebridge.Actions
             {
                 doOver = false;
                 Console.WriteLine();
-                Console.WriteLine($"How many should be gathered, maximum of {house.NumAnimals}?");
+                Console.WriteLine($"How many animals should be selected?");
 
                 Console.Write("> ");
                 string input = Console.ReadLine();
@@ -146,7 +128,7 @@ namespace Trestlebridge.Actions
                 try
                 {
                     quantity = Int32.Parse(input);
-                    if (quantity <= maxAvailable)
+                    if (quantity <= maxAnimals)
                     {
                         return quantity;
                     }
@@ -165,7 +147,8 @@ namespace Trestlebridge.Actions
 
         private static bool AddMore(int capacity)
         {
-            if (capacity == 0) return false;
+            if (_facilities.Count == 0) return false;
+            if (capacity < 3) return false;
             bool doOver = false;
 
             do
@@ -183,16 +166,12 @@ namespace Trestlebridge.Actions
                 {
                     case "Y":
                         return true;
-                        break;
                     case "y":
                         return true;
-                        break;
                     case "N":
                         return false;
-                        break;
                     case "n":
                         return false;
-                        break;
                     default:
                         Program.ShowMessage("Invalid input.  Please try again.");
                         doOver = true;
@@ -203,6 +182,26 @@ namespace Trestlebridge.Actions
 
             // Never runs.
             return false;
+
+        }
+
+        static private void UpdateFacilities(Farm farm)
+        {
+            List<IGathering> output = new List<IGathering>();
+            output.AddRange(farm.ChickenHouses);
+            output.AddRange(farm.DuckHouses);
+            output.AddRange(farm.GrazingFields);
+
+            _facilities = output
+                .Where(facility =>
+                {
+                    if (facility is GrazingField gf)
+                    {
+                        return gf.NumOstriches > 0;
+                    }
+                    return facility.NumAnimals > 0;
+                })
+                .ToList();
 
         }
     }
