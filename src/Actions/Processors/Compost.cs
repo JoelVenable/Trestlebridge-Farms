@@ -132,19 +132,22 @@ namespace Trestlebridge.Actions
 
         private static int SelectQuantity(int capacity, IGrouping<string, IComposting> group)
         {
-            int[] numbers = { capacity, group.Count() };
+            int[] plantNumbers = { capacity, group.Count() };
+            int[] goatNumbers = { (capacity / 2), group.Count() };
 
-            int maxAvailable = numbers.Min();
+
+            int maxAvailablePlants = plantNumbers.Min();
+            int maxAvailableGoats = goatNumbers.Min();
             Program.DisplayBanner();
             if (group.Key == "Goat" && group.Count() > 0)
             {
-                Console.WriteLine($"Selected {group.Key} with {group.Count()} goat compost available to process.");
-                Console.WriteLine($"Composter has {capacity} of available capacity.");
+                Console.WriteLine($"Selected {group.Key}, There are {group.Count()} goat's with compost available to process.");
+                Console.WriteLine($"Composter has {capacity / 2} of available capacity.");
             }
             else
             {
                 Console.WriteLine($"Selected {group.Key} with {group.Count()} rows of plants available to process.");
-                Console.WriteLine($"Composter has {capacity} of available capacity.");
+                Console.WriteLine($"Composter has an available capacity of  {capacity}.");
             }
 
             bool doOver;
@@ -153,7 +156,16 @@ namespace Trestlebridge.Actions
             {
                 doOver = false;
                 Console.WriteLine();
-                Console.WriteLine($"How many should be processed, maximum of {maxAvailable}?");
+                if (group.Key == "Goat" && group.Count() > 0)
+                {
+                    Console.WriteLine($"How many should be processed, maximum of {maxAvailableGoats}?");
+
+                }
+                else
+                {
+                    Console.WriteLine($"How many should be processed, maximum of {maxAvailablePlants}?");
+
+                }
 
                 Console.Write("> ");
                 string input = Console.ReadLine();
@@ -161,11 +173,22 @@ namespace Trestlebridge.Actions
                 try
                 {
                     quantity = Int32.Parse(input);
-                    if (quantity <= maxAvailable)
+                    if (group.Key == "Goat" && group.Count() > 0)
                     {
-                        return quantity;
+                        if (quantity <= maxAvailableGoats)
+                        {
+                            return quantity;
+                        }
+                        else throw new Exception();
                     }
-                    else throw new Exception();
+                    else
+                    {
+                        if (quantity <= maxAvailablePlants)
+                        {
+                            return quantity;
+                        }
+                        else throw new Exception();
+                    }
                 }
                 catch (Exception)
                 {
