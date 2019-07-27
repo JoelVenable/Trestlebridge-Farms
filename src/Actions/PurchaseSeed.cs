@@ -49,19 +49,19 @@ namespace Trestlebridge.Actions
                         {
                             ChoosePlowedField.CollectInput(farm, new Sesame());
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 2:
                         if (availableNaturalFields.Count == 0)
                         {
                             ChooseNaturalField.CollectInput(farm, new Wildflower());
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 3:
                         if (availablePlowedFields.Count == 0 && availableNaturalFields.Count == 0)
                         {
-                            Program.ShowMessage("No available facilities for this animal.");
+                            StandardMessages.ShowMessage("No available facilities for this animal.");
                             break;
                         }
                         else
@@ -69,7 +69,7 @@ namespace Trestlebridge.Actions
 
                             {
                                 Console.Clear();
-                                Program.DisplayBanner();
+                                StandardMessages.DisplayBanner();
                                 if (availableNaturalFields.Count > 0)
                                 {
                                     Console.WriteLine("1. Natural Field");
@@ -103,7 +103,7 @@ namespace Trestlebridge.Actions
                             }
                         }
                     default:
-                        Program.ShowMessage("Invalid selection.  Please choose again.");
+                        StandardMessages.ShowMessage("Invalid selection.  Please choose again.");
                         doOver = true;
                         break;
                 }

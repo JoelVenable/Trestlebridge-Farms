@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Trestlebridge.Models;
+
+namespace Trestlebridge.Actions
+{
+    public static class MainMenu
+    {
+        private static void FarmReport(Farm farm)
+        {
+            StandardMessages.DisplayBanner();
+            Console.WriteLine(farm);
+            Console.WriteLine("\n\n\n");
+            Console.WriteLine("Press return key to go back to main menu.");
+            Console.ReadLine();
+        }
+        public static void Run()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+
+            Farm Trestlebridge = new Farm();
+
+
+
+            while (true)
+            {
+                List<string> menuOptions = new List<string>()
+                {
+                    "Create Facility"
+                };
+
+                if (Trestlebridge.NumberOfAnimalFacilities > 0)
+                {
+                    menuOptions.Add("Purchase Animals");
+                }
+                if (Trestlebridge.NumberOfPlantFacilities > 0)
+                {
+                    menuOptions.Add("Purchase Seeds");
+                }
+
+                menuOptions.Add("Display Farm Status Report");
+                if (Trestlebridge.NumberOfAnimalFacilities > 0 || Trestlebridge.NumberOfPlantFacilities > 0)
+                {
+                    menuOptions.Add("Process Resources");
+                }
+
+                int response = StandardMessages.ShowMenu(menuOptions, "Choose a FARMS option...", "Quit Program.");
+
+                if (response == 0)
+                {
+                    //  Quit program.
+                    Console.WriteLine("Today is a great day for farming");
+                    return;
+                }
+
+                switch (menuOptions[response - 1])
+                {
+                    case "Create Facility":
+                        CreateFacility.CollectInput(Trestlebridge);
+                        break;
+                    case "Purchase Animals":
+                        PurchaseStock.CollectInput(Trestlebridge);
+                        break;
+                    case "Purchase Seeds":
+                        PurchaseSeed.CollectInput(Trestlebridge);
+                        break;
+                    case "Display Farm Status Report":
+                        FarmReport(Trestlebridge);
+                        break;
+                    case "Process Resources":
+                        ProcessResources.CollectInput(Trestlebridge);
+                        break;
+
+                };
+
+            }
+        }
+    }
+}

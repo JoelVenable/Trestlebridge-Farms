@@ -17,7 +17,7 @@ namespace Trestlebridge.Actions
 
             if (_facilities.Count == 0)
             {
-                Program.ShowMessage("No available fields to process.");
+                StandardMessages.ShowMessage("No available fields to process.");
                 return;
             }
       do
@@ -59,7 +59,7 @@ namespace Trestlebridge.Actions
       do
       {
         doOver = false;
-        Program.DisplayBanner();
+        StandardMessages.DisplayBanner();
 
         for (var i = 0; i < farm.PlowedFields.Count; i++)
         {
@@ -83,7 +83,7 @@ namespace Trestlebridge.Actions
         }
         catch (Exception ex)
         {
-          Program.ShowMessage("Invalid Input");
+          StandardMessages.ShowMessage("Invalid Input");
         }
       }
       while (doOver);
@@ -95,7 +95,7 @@ namespace Trestlebridge.Actions
 
     private static IGrouping<string, ISeedProducing> SelectResourceType(List<IGrouping<string, ISeedProducing>> groups)
     {
-      Program.DisplayBanner();
+      StandardMessages.DisplayBanner();
 
       for (int i = 0; i < groups.Count; i++)
       {
@@ -134,7 +134,7 @@ namespace Trestlebridge.Actions
       int[] numbers = { capacity, group.Count() };
 
       int maxAvailable = numbers.Min();
-      Program.DisplayBanner();
+      StandardMessages.DisplayBanner();
       Console.WriteLine($"Selected {group.Key} with {group.Count()} rows of plants available to process.");
       Console.WriteLine($"Seed Harvester has {capacity} rows of available capacity.");
 
@@ -160,7 +160,7 @@ namespace Trestlebridge.Actions
         }
         catch (Exception ex)
         {
-          Program.ShowMessage("Invalid entry");
+          StandardMessages.ShowMessage("Invalid entry");
           doOver = true;
         }
       } while (doOver);
@@ -177,7 +177,7 @@ namespace Trestlebridge.Actions
       do
       {
         doOver = false;
-        Program.DisplayBanner();
+        StandardMessages.DisplayBanner();
         Console.WriteLine($"Seed Harvester has {capacity} rows of plants available capacity.");
         Console.WriteLine();
         Console.WriteLine("Would you like to add more resources?");
@@ -196,7 +196,7 @@ namespace Trestlebridge.Actions
           case "n":
             return false;
           default:
-            Program.ShowMessage("Invalid input.  Please try again.");
+            StandardMessages.ShowMessage("Invalid input.  Please try again.");
             doOver = true;
             break;
         }

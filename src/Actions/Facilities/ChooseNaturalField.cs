@@ -19,7 +19,7 @@ namespace Trestlebridge.Actions
                 Console.WriteLine("Press any button to continue.");
                 Console.ReadLine();
                 Console.Clear();
-                Program.DisplayBanner();
+                StandardMessages.DisplayBanner();
                 PurchaseSeed.CollectInput(farm);
 
             }
@@ -40,11 +40,11 @@ namespace Trestlebridge.Actions
             {
                 int choice = Int32.Parse(Console.ReadLine()) - 1;
 
-                farm.NaturalFields[choice].AddResource(seed);
+                farm.NaturalFields[choice].AddResource((IResource)seed);
             }
             catch (Exception)
             {
-                Program.ShowMessage("Invalid Input");
+                StandardMessages.ShowMessage("Invalid Input");
             }
 
         }

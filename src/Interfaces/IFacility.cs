@@ -3,11 +3,14 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Interfaces
 {
-    public interface IFacility<T>
+    public interface IFacility
     {
         double Capacity { get; }
 
-        void AddResource(T resource);
-        void AddResource(List<T> resources);
+        string Name { get; set; }
+
+
+        void AddResource(IResource resource);
+        void AddResource(List<IResource> resources);
     }
 }

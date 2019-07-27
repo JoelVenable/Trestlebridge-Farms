@@ -7,7 +7,7 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class GrazingField : IFacility<IGrazing>, IMeatFacility, ICompostProducing, IGathering
+    public class GrazingField : IFacility, IMeatFacility, ICompostProducing, IGathering
     {
         private int _capacity = 20;
         private Guid _id = Guid.NewGuid();
@@ -68,16 +68,19 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-        public void AddResource(IGrazing animal)
+        public void AddResource(IResource resource)
         {
-            // TODO: implement this...
-            _animals.Add(animal);
+            if (resource is IGrazing animal) _animals.Add(animal);
+            else throw new Exception("Invalid resource");
         }
 
-        public void AddResource(List<IGrazing> animals)
+        public void AddResource(List<IResource> resources)
         {
-            // TODO: implement this...
-            _animals.AddRange(animals);
+            resources.ForEach(resource =>
+            {
+                if (resource is IGrazing animal) _animals.Add(animal);
+                else throw new Exception("Invalid resource");
+            });
         }
 
         public List<IGrouping<string, IGrazing>> CreateGroup()

@@ -8,7 +8,7 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class ChickenHouse : IFacility<Chicken>, IMeatFacility, IGathering
+    public class ChickenHouse : IFacility, IMeatFacility, IGathering
     {
         public int _capacity = 15;
 
@@ -51,14 +51,20 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-        public void AddResource(Chicken chicken)
+
+        public void AddResource(IResource resource)
         {
-            _chickens.Add(chicken);
+            if (resource is Chicken chicken) _chickens.Add(chicken);
+            else throw new Exception("Invalid resource.");
         }
 
-        public void AddResource(List<Chicken> chickens)
+        public void AddResource(List<IResource> resources)
         {
-            _chickens.AddRange(chickens);
+            resources.ForEach(resource =>
+            {
+                if (resource is Chicken chicken) _chickens.Add(chicken);
+                else throw new Exception("Invalid resource.");
+            });
         }
 
         public void SendToBasket(int numToProcess, Farm farm)
@@ -109,5 +115,6 @@ namespace Trestlebridge.Models.Facilities
                 _chickens.Remove(selectedChicken);
             }
         }
+
     }
 }

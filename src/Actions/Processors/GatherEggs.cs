@@ -19,7 +19,7 @@ namespace Trestlebridge.Actions
                 UpdateFacilities(farm);
                 if (_facilities.Count == 0)
                 {
-                    Program.ShowMessage("No available facilities to process.");
+                    StandardMessages.ShowMessage("No available facilities to process.");
                     return;
                 }
                 // Select a house
@@ -45,7 +45,7 @@ namespace Trestlebridge.Actions
             {
 
                 doOver = false;
-                Program.DisplayBanner();
+                StandardMessages.DisplayBanner();
                 UpdateFacilities(farm);
 
                 for (var i = 0; i < _facilities.Count; i++)
@@ -82,7 +82,7 @@ namespace Trestlebridge.Actions
                 }
                 catch (Exception)
                 {
-                    Program.ShowMessage("Invalid Input");
+                    StandardMessages.ShowMessage("Invalid Input");
                 }
             }
             while (doOver);
@@ -116,7 +116,7 @@ namespace Trestlebridge.Actions
             int[] animalArray = { (int)maxAvailable, numAnimals };
             int maxAnimals = animalArray.Min();
 
-            Program.DisplayBanner();
+            StandardMessages.DisplayBanner();
             Console.WriteLine($"Egg Gatherer can gather eggs from {maxAnimals} animals.");
 
             bool doOver;
@@ -141,7 +141,7 @@ namespace Trestlebridge.Actions
                 }
                 catch (Exception ex)
                 {
-                    Program.ShowMessage("Invalid entry");
+                    StandardMessages.ShowMessage("Invalid entry");
                     doOver = true;
                 }
             } while (doOver);
@@ -159,7 +159,7 @@ namespace Trestlebridge.Actions
             do
             {
                 doOver = false;
-                Program.DisplayBanner();
+                StandardMessages.DisplayBanner();
                 Console.WriteLine($"Egg Gatherer has {capacity} eggs available in capacity.");
                 Console.WriteLine();
                 Console.WriteLine("Would you like to add more resources?");
@@ -178,7 +178,7 @@ namespace Trestlebridge.Actions
                     case "n":
                         return false;
                     default:
-                        Program.ShowMessage("Invalid input.  Please try again.");
+                        StandardMessages.ShowMessage("Invalid input.  Please try again.");
                         doOver = true;
                         break;
                 }

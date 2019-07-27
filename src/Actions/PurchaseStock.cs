@@ -51,7 +51,7 @@ namespace Trestlebridge.Actions
                         {
                             ChooseChickenHouse.CollectInput(availableChickenHouses, new Chicken());
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 2:
                         // cow
@@ -59,7 +59,7 @@ namespace Trestlebridge.Actions
                         {
                             ChooseGrazingField.CollectInput(availableGrazingFields, new Cow());
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 3:
                         // duck
@@ -68,7 +68,7 @@ namespace Trestlebridge.Actions
                             chooseDuckHouse.CollectInput(availableDuckHouses, new Duck());
 
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 4:
                         // goat
@@ -77,7 +77,7 @@ namespace Trestlebridge.Actions
                             ChooseGrazingField.CollectInput(availableGrazingFields, new Goat());
 
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 5:
                         // ostrich
@@ -86,7 +86,7 @@ namespace Trestlebridge.Actions
                             ChooseGrazingField.CollectInput(availableGrazingFields, new Ostrich());
 
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 6:
                         // pig
@@ -95,7 +95,7 @@ namespace Trestlebridge.Actions
                             ChooseGrazingField.CollectInput(availableGrazingFields, new Pig());
 
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     case 7:
                         // sheep
@@ -104,10 +104,10 @@ namespace Trestlebridge.Actions
                             ChooseGrazingField.CollectInput(availableGrazingFields, new Sheep());
 
                         }
-                        else Program.ShowMessage("No available facilities for this animal.");
+                        else StandardMessages.ShowMessage("No available facilities for this animal.");
                         break;
                     default:
-                        Program.ShowMessage("Invalid selection.  Please choose again.");
+                        StandardMessages.ShowMessage("Invalid selection.  Please choose again.");
                         doOver = true;
                         break;
                 }

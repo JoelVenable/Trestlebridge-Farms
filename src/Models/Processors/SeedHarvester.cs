@@ -53,7 +53,7 @@ namespace Trestlebridge.Models.Processors
       if (sesameSeeds > 0) message += $"{sesameSeeds} Sesame seeds were harvested.\n";
       if (sunflowerSeeds > 0) message += $"{sunflowerSeeds} Sunflower seeds were harvested.\n";
 
-      Program.ShowMessage(message);
+      StandardMessages.ShowMessage(message);
 
       SesameSeeds += sesameSeeds;
       SunflowerSeeds += sunflowerSeeds;

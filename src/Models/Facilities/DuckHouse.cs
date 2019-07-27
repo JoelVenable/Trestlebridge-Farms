@@ -7,7 +7,7 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class DuckHouse : IFacility<Duck>, IMeatFacility, IGathering
+    public class DuckHouse : IFacility, IMeatFacility, IGathering
     {
         private int _capacity = 12;
         private Guid _id = Guid.NewGuid();
@@ -49,14 +49,19 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-        public void AddResource(Duck duck)
+        public void AddResource(IResource resource)
         {
-            _ducks.Add(duck);
+            if (resource is Duck duck) _ducks.Add(duck);
+            else throw new Exception("Invalid resource.");
         }
 
-        public void AddResource(List<Duck> ducks)
+        public void AddResource(List<IResource> resources)
         {
-            _ducks.AddRange(ducks);
+            resources.ForEach(resource =>
+            {
+                if (resource is Duck duck) _ducks.Add(duck);
+                else throw new Exception("Invalid resource.");
+            });
         }
 
         public void SendToBasket(int numToProcess, Farm farm)

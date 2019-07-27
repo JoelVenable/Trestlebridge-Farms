@@ -1,94 +1,67 @@
 using System;
+using System.Collections.Generic;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models;
 using Trestlebridge.Models.Facilities;
 
 namespace Trestlebridge.Actions
 {
-    public class CreateFacility
+    static public class CreateFacility
     {
-        public static void CollectInput(Farm farm)
+        static private List<string> _options = new List<string>()
+            {
+                "Grazing Field",
+                "Plowed Field",
+                "Natural Field",
+                "Chicken House",
+                "Duck House"
+            };
+        static public void CollectInput(Farm farm)
         {
-            Console.WriteLine("1. Grazing field");
-            Console.WriteLine("2. Plowed field");
-            Console.WriteLine("3. Natural field");
-            Console.WriteLine("4. Chicken House");
-            Console.WriteLine("5. Duck House");
 
 
-            Console.WriteLine();
-            Console.WriteLine("Choose what you want to create");
-
-            Console.Write("> ");
-            string input = Console.ReadLine();
-
-            int inputNum = 0;
-            try
+            int response = StandardMessages.ShowMenu(_options, "Choose what facility to create...");
+            if (response == 0) return;  // Going back...
+            else
             {
-                inputNum = Int32.Parse(input);
-                if (inputNum < 1 || inputNum > 5) throw new Exception();
-            }
-            catch (Exception)
-            {
-                Program.ShowMessage("invalid input");
-                CollectInput(farm);
+                IFacility newFacility = GetNewFacility(response);
+                string facilityType = _options[response - 1];
+
+                newFacility.Name = GetName(facilityType);
+
+                farm.AddFacility(newFacility);
+
+                Console.WriteLine($"Successfully added new {facilityType}: {newFacility.Name}");
+
             }
 
-            switch (inputNum)
+
+        }
+
+        static private IFacility GetNewFacility(int selection)
+        {
+            switch (selection)
             {
                 case 1:
-                    string GrazingFieldName = Program.GetInput(
-                        "Adding a new Grazing Field to the farm.  What would you like to call it?"
-                        );
-                    farm.AddGrazingField(new GrazingField()
-                    {
-                        Name = GrazingFieldName,
-                    });
-                    Program.ShowMessage($"Successfully added Grazing Field: {GrazingFieldName}.");
-                    break;
+                    return new GrazingField();
                 case 2:
-                    string PlowedFieldName = Program.GetInput(
-                        "Adding a new Plowed Field to the farm.  What would you like to call it?"
-                        );
-                    farm.AddPlowedField(new PlowedField()
-                    {
-                        Name = PlowedFieldName,
-                    });
-                    Program.ShowMessage($"Successfully added Plowed Field: {PlowedFieldName}."); break;
+                    return new PlowedField();
                 case 3:
-                    string NaturalFieldName = Program.GetInput(
-                          "Adding a new Natural Field to the farm.  What would you like to call it?"
-                          );
-                    farm.AddNaturalField(new NaturalField()
-                    {
-                        Name = NaturalFieldName,
-                    });
-                    Program.ShowMessage($"Successfully added Natural Field: {NaturalFieldName}.");
-                    break;
+                    return new NaturalField();
                 case 4:
-                    string ChickenHouseName = Program.GetInput(
-                        "Adding a new Chicken House to the farm.  What would you like to call it?"
-                        );
-                    farm.AddChickenHouse(new ChickenHouse()
-                    {
-                        Name = ChickenHouseName
-                    });
-                    Program.ShowMessage($"Successfully added Chicken House: {ChickenHouseName}.");
-                    break;
-
-                //Duck House
+                    return new ChickenHouse();
                 case 5:
-                    var DuckHouseName = Program.GetInput("Adding a new Duck House to the farm.  What would you like to call it?");
-                    farm.AddDuckHouse(new DuckHouse()
-                    {
-                        Name = DuckHouseName
-                    });
-                    Program.ShowMessage($"Successfully added Duck House: {DuckHouseName}.");
-
-                    break;
+                    return new DuckHouse();
                 default:
-                    break;
+                    return null;
             }
+        }
+
+        static private string GetName(string type)
+        {
+            return StandardMessages.GetInput(
+                        $"Adding a new {type} to the farm.  What would you like to call it?"
+                        );
         }
     }
 }

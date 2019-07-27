@@ -93,7 +93,7 @@ namespace Trestlebridge.Models.Processors
       if (duckMeat > 0) message += $"{duckMeat} Kgs of duck meat was processed.\n";
 
 
-      Program.ShowMessage(message);
+      StandardMessages.ShowMessage(message);
 
       ChickenMeat += chickenMeat;
       CowMeat += cowMeat;

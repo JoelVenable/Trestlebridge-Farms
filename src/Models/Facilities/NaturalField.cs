@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Trestlebridge.Models.Facilities
 {
-  public class NaturalField : IFacility<IComposting>, ICompostProducing
+  public class NaturalField : IFacility, ICompostProducing
   {
     private int _rows = 10;
 
@@ -52,14 +52,19 @@ namespace Trestlebridge.Models.Facilities
       }
     }
 
-    public void AddResource(IComposting plant)
+    public void AddResource(IResource resource)
     {
-      _plants.Add(plant);
+            if (resource is IComposting plant) _plants.Add(plant);
+            else throw new Exception("Invalid Resource");
     }
 
-    public void AddResource(List<IComposting> plants)
+    public void AddResource(List<IResource> resources)
     {
-      _plants.AddRange(plants);
+            resources.ForEach(resource =>
+            {
+                if (resource is IComposting plant) _plants.Add(plant);
+                else throw new Exception("Invalid Resource");
+            });
     }
 
     public void ListByType()

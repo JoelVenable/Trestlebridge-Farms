@@ -32,7 +32,7 @@ namespace Trestlebridge.Actions
       }
       catch (Exception ex)
       {
-        Program.ShowMessage("Invalid input!");
+        StandardMessages.ShowMessage("Invalid input!");
       }
 
 

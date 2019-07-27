@@ -75,7 +75,7 @@ namespace Trestlebridge.Models.Processors
             if (duckEggs > 0) message += $"{duckEggs} Duck eggs were harvested.\n";
             if (ostrichEggs > 0) message += $"{ostrichEggs} Ostrich eggs were harvested.\n";
 
-            Program.ShowMessage(message);
+            StandardMessages.ShowMessage(message);
 
             ChickenEggs += chickenEggs;
             DuckEggs += duckEggs;

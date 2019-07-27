@@ -19,7 +19,7 @@ namespace Trestlebridge.Actions
                 UpdateFacilities(farm);
                 if (_facilities.Count == 0)
                 {
-                    Program.ShowMessage("No available facilities to process.");
+                    StandardMessages.ShowMessage("No available facilities to process.");
                     return;
                 }
                 
@@ -52,7 +52,7 @@ namespace Trestlebridge.Actions
             do
             {
                 doOver = false;
-                Program.DisplayBanner();
+                StandardMessages.DisplayBanner();
                 var fields = new List<ICompostProducing>();
                 fields.AddRange(farm.GrazingFields);
                 fields.AddRange(farm.NaturalFields);
@@ -85,7 +85,7 @@ namespace Trestlebridge.Actions
                 }
                 catch (Exception)
                 {
-                    Program.ShowMessage("Invalid Input");
+                    StandardMessages.ShowMessage("Invalid Input");
                 }
             }
             while (doOver);
@@ -97,7 +97,7 @@ namespace Trestlebridge.Actions
 
         private static IGrouping<string, IComposting> SelectResourceType(List<IGrouping<string, IComposting>> groups)
         {
-            Program.DisplayBanner();
+            StandardMessages.DisplayBanner();
 
             for (int i = 0; i < groups.Count; i++)
             {
@@ -147,7 +147,7 @@ namespace Trestlebridge.Actions
 
             int maxAvailablePlants = plantNumbers.Min();
             int maxAvailableGoats = goatNumbers.Min();
-            Program.DisplayBanner();
+            StandardMessages.DisplayBanner();
             if (group.Key == "Goat" && group.Count() > 0)
             {
                 Console.WriteLine($"Selected {group.Key}, There are {group.Count()} goat's with compost available to process.");
@@ -201,7 +201,7 @@ namespace Trestlebridge.Actions
                 }
                 catch (Exception)
                 {
-                    Program.ShowMessage("Invalid entry");
+                    StandardMessages.ShowMessage("Invalid entry");
                     doOver = true;
                 }
             } while (doOver);
@@ -218,7 +218,7 @@ namespace Trestlebridge.Actions
             do
             {
                 doOver = false;
-                Program.DisplayBanner();
+                StandardMessages.DisplayBanner();
                 Console.WriteLine($"Composter has space {capacity} plants and {capacity / 2} goat compost.");
                 Console.WriteLine();
                 Console.WriteLine("Would you like to add more resources?");
@@ -237,7 +237,7 @@ namespace Trestlebridge.Actions
                     case "n":
                         return false;
                     default:
-                        Program.ShowMessage("Invalid input.  Please try again.");
+                        StandardMessages.ShowMessage("Invalid input.  Please try again.");
                         doOver = true;
                         break;
                 }

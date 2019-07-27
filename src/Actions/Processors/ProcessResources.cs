@@ -44,7 +44,7 @@ namespace Trestlebridge.Actions
                         Compost.CollectInput(farm);
                         break;
                     default:
-                        Program.ShowMessage("Invalid selection.  Please choose again.");
+                        StandardMessages.ShowMessage("Invalid selection.  Please choose again.");
                         doOver = true;
                         break;
                 }

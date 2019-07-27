@@ -29,12 +29,12 @@ namespace Trestlebridge.Actions
             {
                 int choice = Int32.Parse(Console.ReadLine());
 
-                field[choice - 1].AddResource(animal);
+                field[choice - 1].AddResource((IResource)animal);
 
             }
             catch (Exception)
             {
-                Program.ShowMessage("Invalid Input");
+                StandardMessages.ShowMessage("Invalid Input");
             }
 
         }

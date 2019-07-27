@@ -39,7 +39,7 @@ namespace Trestlebridge.Actions
         }
         else
         {
-          Program.ShowMessage("No available facilities to process.");
+          StandardMessages.ShowMessage("No available facilities to process.");
           return;
         }
 
@@ -57,7 +57,7 @@ namespace Trestlebridge.Actions
       do
       {
         doOver = false;
-        Program.DisplayBanner();
+        StandardMessages.DisplayBanner();
 
         for (int i = 0; i < facilities.Count; i++)
         {
@@ -96,7 +96,7 @@ namespace Trestlebridge.Actions
         }
         catch (Exception ex)
         {
-          Program.ShowMessage("Invalid Input");
+          StandardMessages.ShowMessage("Invalid Input");
         }
       }
       while (doOver);
@@ -110,7 +110,7 @@ namespace Trestlebridge.Actions
     {
       if (groups.Count == 1) return groups[0];
 
-      Program.DisplayBanner();
+      StandardMessages.DisplayBanner();
       for (int i = 0; i < groups.Count; i++)
       {
         System.Console.WriteLine($"{i + 1}. {groups[i].Key}s: ({groups[i].Count()} available)");
@@ -147,7 +147,7 @@ namespace Trestlebridge.Actions
       int[] numbers = { capacity, group.Count() };
 
       int maxAvailable = numbers.Min();
-      Program.DisplayBanner();
+      StandardMessages.DisplayBanner();
       Console.WriteLine($"Selected {group.Key} with {group.Count()} animals available to process.");
       Console.WriteLine($"Meat processor has {capacity} spaces of available capacity.");
 
@@ -173,7 +173,7 @@ namespace Trestlebridge.Actions
         }
         catch (Exception ex)
         {
-          Program.ShowMessage("Invalid entry");
+          StandardMessages.ShowMessage("Invalid entry");
           doOver = true;
         }
       } while (doOver);
@@ -190,7 +190,7 @@ namespace Trestlebridge.Actions
       do
       {
         doOver = false;
-        Program.DisplayBanner();
+        StandardMessages.DisplayBanner();
         Console.WriteLine($"Meat processor now has {capacity} spaces of available capacity.");
         Console.WriteLine();
         Console.WriteLine("Would you like to add more resources?");
@@ -213,7 +213,7 @@ namespace Trestlebridge.Actions
             return false;
             break;
           default:
-            Program.ShowMessage("Invalid input.  Please try again.");
+            StandardMessages.ShowMessage("Invalid input.  Please try again.");
             doOver = true;
             break;
         }

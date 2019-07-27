@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class PlowedField : IFacility<ISeedProducing>
+    public class PlowedField : IFacility
     {
         private int _rows = 13;
 
@@ -42,11 +42,19 @@ namespace Trestlebridge.Models.Facilities
             }
         }
 
-        double IFacility<ISeedProducing>.Capacity => throw new NotImplementedException();
 
-        public void AddResource(ISeedProducing plant)
+        public void AddResource(IResource resource)
         {
-            _plants.Add(plant);
+            if (resource is ISeedProducing plant) _plants.Add(plant);
+            else throw new Exception("Invalid resource");
+        }
+        public void AddResource(List<IResource> resources)
+        {
+            resources.ForEach(resource =>
+            {
+                if (resource is ISeedProducing plant) _plants.Add(plant);
+                else throw new Exception("Invalid resource");
+            });
         }
 
         public void ListByType()
@@ -59,10 +67,7 @@ namespace Trestlebridge.Models.Facilities
 
         }
 
-        public void AddResource(List<ISeedProducing> plants)
-        {
-            _plants.AddRange(plants);
-        }
+        
 
 
         public List<IGrouping<string, ISeedProducing>> CreateGroup()

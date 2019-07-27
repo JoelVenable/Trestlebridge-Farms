@@ -62,7 +62,7 @@ namespace Trestlebridge.Models.Processors
             string message = "Harvesting resources...\n";
             message += $"{compost} Kilograms of compost were produced.\n";
 
-            Program.ShowMessage(message);
+            StandardMessages.ShowMessage(message);
 
             KGCompost += compost;
             _hopper.Clear();
