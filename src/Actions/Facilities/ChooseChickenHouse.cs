@@ -30,7 +30,7 @@ namespace Trestlebridge.Actions
         int choice = Int32.Parse(Console.ReadLine());
         houses[choice - 1].AddResource(chicken);
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         StandardMessages.ShowMessage("Invalid input!");
       }

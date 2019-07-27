@@ -139,7 +139,7 @@ namespace Trestlebridge.Actions
                     }
                     else throw new Exception();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     StandardMessages.ShowMessage("Invalid entry");
                     doOver = true;

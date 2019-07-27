@@ -81,7 +81,7 @@ namespace Trestlebridge.Actions
 
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           StandardMessages.ShowMessage("Invalid Input");
         }
@@ -118,7 +118,7 @@ namespace Trestlebridge.Actions
           choice = Int32.Parse(groupType);
           return groups[choice - 1];
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           doOver = true;
         }
@@ -158,7 +158,7 @@ namespace Trestlebridge.Actions
           }
           else throw new Exception();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           StandardMessages.ShowMessage("Invalid entry");
           doOver = true;
