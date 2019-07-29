@@ -31,20 +31,15 @@ namespace Trestlebridge.Actions
                     "Create Facility"
                 };
 
-                if (Trestlebridge.NumberOfAnimalFacilities > 0)
+                if (Trestlebridge.Facilities.Count > 0)
                 {
-                    menuOptions.Add("Purchase Animals");
-                }
-                if (Trestlebridge.NumberOfPlantFacilities > 0)
-                {
-                    menuOptions.Add("Purchase Seeds");
+                    menuOptions.Add("Purchase Resources");
+                    menuOptions.Add("Process Resources");
+
                 }
 
                 menuOptions.Add("Display Farm Status Report");
-                if (Trestlebridge.NumberOfAnimalFacilities > 0 || Trestlebridge.NumberOfPlantFacilities > 0)
-                {
-                    menuOptions.Add("Process Resources");
-                }
+
 
                 int response = StandardMessages.ShowMenu(menuOptions, "Choose a FARMS option...", "Quit Program.");
 
@@ -60,11 +55,8 @@ namespace Trestlebridge.Actions
                     case "Create Facility":
                         CreateFacility.CollectInput(Trestlebridge);
                         break;
-                    case "Purchase Animals":
-                        PurchaseStock.CollectInput(Trestlebridge);
-                        break;
-                    case "Purchase Seeds":
-                        PurchaseSeed.CollectInput(Trestlebridge);
+                    case "Purchase Resources":
+                        PurchaseResource.CollectInput(Trestlebridge);
                         break;
                     case "Display Farm Status Report":
                         FarmReport(Trestlebridge);

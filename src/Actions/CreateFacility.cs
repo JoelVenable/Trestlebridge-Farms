@@ -8,7 +8,7 @@ namespace Trestlebridge.Actions
 {
     static public class CreateFacility
     {
-        static private List<string> _options = new List<string>()
+        static private readonly List<string> _options = new List<string>()
             {
                 "Grazing Field",
                 "Plowed Field",
