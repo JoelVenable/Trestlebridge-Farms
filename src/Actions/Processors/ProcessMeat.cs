@@ -202,16 +202,12 @@ namespace Trestlebridge.Actions
         {
           case "Y":
             return true;
-            break;
           case "y":
             return true;
-            break;
           case "N":
             return false;
-            break;
           case "n":
             return false;
-            break;
           default:
             StandardMessages.ShowMessage("Invalid input.  Please try again.");
             doOver = true;
@@ -227,13 +223,12 @@ namespace Trestlebridge.Actions
 
     static private void UpdateFacilities(Farm farm)
     {
-      List<IMeatFacility> output = new List<IMeatFacility>();
-      output.AddRange(farm.ChickenHouses);
-      output.AddRange(farm.DuckHouses);
-      output.AddRange(farm.GrazingFields);
-
-      _facilities = output
-          .Where(facility => facility.NumMeatAnimals > 0)
+      _facilities = farm.Facilities
+          .Where(fac =>
+          {
+              if (fac is IMeatFacility mf && mf.NumMeatAnimals > 0) return true;
+              else return false;
+          }).Cast<IMeatFacility>()
           .ToList();
 
     }

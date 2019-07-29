@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Trestlebridge.Models;
 using Trestlebridge.Models.Facilities;
 using Trestlebridge.Interfaces;
+using Trestlebridge.Models.Processors;
 
 namespace Trestlebridge.Actions
 {
@@ -23,7 +24,7 @@ namespace Trestlebridge.Actions
                     return;
                 }
                 // Select a house
-                IGathering selectedHouse = SelectHouse(farm);
+                IGathering selectedHouse = SelectHouse(farm.EggGatherer);
 
                 // Select quantity of resources to process
                 int quantity = SelectQuantity(farm.EggGatherer.Capacity, selectedHouse);
@@ -38,57 +39,35 @@ namespace Trestlebridge.Actions
         }
 
 
-        private static IGathering SelectHouse(Farm farm)
+        private static IGathering SelectHouse(EggGatherer eg)
         {
-            bool doOver;
-            do
-            {
 
-                doOver = false;
-                StandardMessages.DisplayBanner();
-                UpdateFacilities(farm);
-
-                for (var i = 0; i < _facilities.Count; i++)
+            List<string> options = new List<string>();
+            _facilities.ForEach(fac => {
+                if (fac is ChickenHouse && eg.Capacity >= 7)
                 {
-                    var facility = _facilities[i];
-                    if (facility is ChickenHouse && farm.EggGatherer.Capacity >= 7)
-                    {
-                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} chickens)");
-                    }
-                    else if (facility is DuckHouse && farm.EggGatherer.Capacity >= 6)
-                    {
-                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} ducks)");
-                    }
-                    else if (facility is GrazingField && farm.EggGatherer.Capacity >= 3)
-                    {
-                        Console.WriteLine($"{i + 1}. {facility.Name} ({facility.NumAnimals} ostriches)");
-                    }
-                    else
-                    {
-                        farm.EggGatherer.Gather();
-                    }
+                    options.Add($"{fac.Name} ({fac.NumAnimals} chickens)");
                 }
-                Console.WriteLine();
-                Console.WriteLine("Which facility has the animals you want to collect eggs from?");
-
-                Console.Write("> ");
-                string fieldChoice = Console.ReadLine();
-                int choice;
-                try
+                else if (fac is DuckHouse && eg.Capacity >= 6)
                 {
-                    choice = Int32.Parse(fieldChoice);
-                    var house = _facilities[choice - 1];
-                    return house;
+                    options.Add($"{fac.Name} ({fac.NumAnimals} ducks)");
                 }
-                catch (Exception)
+                else if (fac is GrazingField gf && eg.Capacity >= 3)
                 {
-                    StandardMessages.ShowMessage("Invalid Input");
+                    options.Add($"{fac.Name} ({gf.NumOstriches} ostriches)");
                 }
-            }
-            while (doOver);
+                else
+                {
+                    eg.Gather();
+                }
+            });
 
-            //  Should never get here.
-            return null;
+            int choice = StandardMessages.ShowMenu(
+                options, 
+                "Which facility has the animals you want to collect eggs from?"
+                );
+            if (choice == 0) return null;
+            else return _facilities[choice - 1];
         }
 
         private static int SelectQuantity(int capacity, IGathering house)
@@ -116,98 +95,31 @@ namespace Trestlebridge.Actions
             int[] animalArray = { (int)maxAvailable, numAnimals };
             int maxAnimals = animalArray.Min();
 
-            StandardMessages.DisplayBanner();
-            Console.WriteLine($"Egg Gatherer can gather eggs from {maxAnimals} animals.");
-
-            bool doOver;
-
-            do
-            {
-                doOver = false;
-                Console.WriteLine();
-                Console.WriteLine($"How many animals should be selected?");
-
-                Console.Write("> ");
-                string input = Console.ReadLine();
-                int quantity;
-                try
-                {
-                    quantity = Int32.Parse(input);
-                    if (quantity <= maxAnimals)
-                    {
-                        return quantity;
-                    }
-                    else throw new Exception();
-                }
-                catch (Exception)
-                {
-                    StandardMessages.ShowMessage("Invalid entry");
-                    doOver = true;
-                }
-            } while (doOver);
-
-            // This line will never run
-            return 0;
+            return StandardMessages.GetNumber(
+                $"Egg Gatherer can gather eggs from {maxAnimals} animals.\n\n" +
+                "How many animals should be selected?",
+                maxAnimals
+                );
         }
 
         private static bool AddMore(int capacity)
         {
             if (_facilities.Count == 0) return false;
             if (capacity < 3) return false;
-            bool doOver = false;
 
-            do
-            {
-                doOver = false;
-                StandardMessages.DisplayBanner();
-                Console.WriteLine($"Egg Gatherer has {capacity} eggs available in capacity.");
-                Console.WriteLine();
-                Console.WriteLine("Would you like to add more resources?");
-                Console.WriteLine();
-                Console.WriteLine("Please press (Y/y) or (N/n).");
-                Console.Write("> ");
-                string response = Console.ReadLine();
-                switch (response)
-                {
-                    case "Y":
-                        return true;
-                    case "y":
-                        return true;
-                    case "N":
-                        return false;
-                    case "n":
-                        return false;
-                    default:
-                        StandardMessages.ShowMessage("Invalid input.  Please try again.");
-                        doOver = true;
-                        break;
-                }
-
-            } while (doOver);
-
-            // Never runs.
-            return false;
-
+            return StandardMessages.GetYesOrNo(
+                $"Egg Gatherer has {capacity} eggs available in capacity.\n\n" + 
+                "Would you like to add more resources?"
+                );
         }
 
         static private void UpdateFacilities(Farm farm)
         {
-            List<IGathering> output = new List<IGathering>();
-            output.AddRange(farm.ChickenHouses);
-            output.AddRange(farm.DuckHouses);
-            output.AddRange(farm.GrazingFields);
-
-            _facilities = output
-                .Where(facility =>
-                {
-                    if (facility is GrazingField gf)
-                    {
-                        return gf.NumOstriches > 0;
-                    }
-                    return facility.NumAnimals > 0;
-                })
-                .ToList();
-
+            _facilities = farm.Facilities.Where(fac =>
+            {
+                if (fac is IGathering gather && gather.NumAnimals > 0) return true;
+                else return false;
+            }).Cast<IGathering>().ToList();
         }
     }
 

@@ -9,7 +9,7 @@ namespace Trestlebridge.Actions
 {
     public class Compost
     {
-        private static List<IGathering> _facilities = new List<IGathering>();
+        private static List<ICompostProducing> _facilities = null;
 
 
         public static void CollectInput(Farm farm)
@@ -24,7 +24,7 @@ namespace Trestlebridge.Actions
                 }
                 
                 // Select a field
-                ICompostProducing selectedField = SelectField(farm);
+                ICompostProducing selectedField = SelectField();
 
                 // Select a resource type
 
@@ -46,52 +46,19 @@ namespace Trestlebridge.Actions
         }
 
 
-        private static ICompostProducing SelectField(Farm farm)
+        private static ICompostProducing SelectField()
         {
-            bool doOver;
-            do
+            var options = new List<string>();
+            _facilities.ForEach(fac =>
             {
-                doOver = false;
-                StandardMessages.DisplayBanner();
-                var fields = new List<ICompostProducing>();
-                fields.AddRange(farm.GrazingFields);
-                fields.AddRange(farm.NaturalFields);
-                for (var i = 0; i < fields.Count; i++)
-                {
-                    if (fields[i].GetType().Name == "GrazingField")
-                    {
-                        Console.WriteLine($"{i + 1}. {fields[i].Name} ({fields[i].CompostAmmount} goats)");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{i + 1}. {fields[i].Name} ({fields[i].CompostAmmount} plants)");
-                    }
-                }
-                Console.WriteLine();
-                Console.WriteLine("Which facility has the compost you want to process?");
+                if (fac is GrazingField gf) options.Add($"Grazing field: {gf.Name} ({gf.CompostAmount} goats)");
+                if (fac is NaturalField nf) options.Add($"Natural Field: {nf.Name} ({nf.CompostAmount} plants)");
+            });
 
-                Console.Write("> ");
-                string fieldChoice = Console.ReadLine();
-                int choice;
-                try
-                {
-                    choice = Int32.Parse(fieldChoice);
-                    var field = fields[choice - 1];
-                    return field;
+            int selection = StandardMessages.ShowMenu(options, "Select a facility to process compost from...");
 
-
-
-
-                }
-                catch (Exception)
-                {
-                    StandardMessages.ShowMessage("Invalid Input");
-                }
-            }
-            while (doOver);
-
-            //  Should never get here.
-            return null;
+            if (selection == 0) return null;
+            return _facilities[selection - 1];
         }
 
 
@@ -251,21 +218,12 @@ namespace Trestlebridge.Actions
 
         static private void UpdateFacilities(Farm farm)
         {
-            List<IGathering> output = new List<IGathering>();
-            output.AddRange(farm.ChickenHouses);
-            output.AddRange(farm.DuckHouses);
-            output.AddRange(farm.GrazingFields);
+            _facilities = farm.Facilities.Where(fac =>
+            {
+                if (fac is ICompostProducing cp && cp.CompostAmount > 0) return true;
+                else return false;
+            }).Cast<ICompostProducing>().ToList();
 
-            _facilities = output
-                .Where(facility =>
-                {
-                    if (facility is GrazingField gf)
-                    {
-                        return gf.NumOstriches > 0;
-                    }
-                    return facility.NumAnimals > 0;
-                })
-                .ToList();
 
         }
     }

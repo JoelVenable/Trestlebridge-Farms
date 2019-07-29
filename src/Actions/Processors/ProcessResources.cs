@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using Trestlebridge.Interfaces;
 using Trestlebridge.Models;
+using Trestlebridge.Models.Facilities;
 
 namespace Trestlebridge.Actions
 {
@@ -7,29 +10,17 @@ namespace Trestlebridge.Actions
     {
         public static void CollectInput(Farm farm)
         {
+            List<string> options = new List<string>();
 
-            bool doOver;
-            do
-            {
-                Console.WriteLine("1. Seed Harvester");
-                Console.WriteLine("2. Meat Processor");
-                Console.WriteLine("3. Egg Gatherer");
-                Console.WriteLine("4. Composter");
-                Console.WriteLine();
-                Console.WriteLine("Choose equipment to use");
-                Console.Write("> ");
-                string choice = Console.ReadLine();
-                doOver = false;
-                int numChoice = 0;
-                try
-                {
-                    numChoice = Int32.Parse(choice);
-                }
-                catch (Exception)
-                {
-                    numChoice = 0;
-                }
-                switch (numChoice)
+
+            //  TODO: Check if facilites can process resources before showing the processor.
+            options.Add("Seed Harvester");
+            options.Add("Meat Processor");
+            options.Add("Egg Gatherer");
+            options.Add("Composter");
+
+            int choice = StandardMessages.ShowMenu(options, "Choose Equipment to use...");
+                switch (choice)
                 {
                     case 1:
                         HarvestSeeds.CollectInput(farm);
@@ -44,11 +35,8 @@ namespace Trestlebridge.Actions
                         Compost.CollectInput(farm);
                         break;
                     default:
-                        StandardMessages.ShowMessage("Invalid selection.  Please choose again.");
-                        doOver = true;
                         break;
                 }
-            } while (doOver);
 
         }
     }

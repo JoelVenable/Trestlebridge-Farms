@@ -24,7 +24,7 @@ namespace Trestlebridge.Actions
       {
 
         // Select a field
-        PlowedField selectedField = SelectField(farm);
+        PlowedField selectedField = SelectField();
 
         // Select a resource type
         var groups = selectedField.CreateGroup();
@@ -53,47 +53,20 @@ namespace Trestlebridge.Actions
     }
 
 
-    private static PlowedField SelectField(Farm farm)
-    {
-      bool doOver;
-      do
-      {
-        doOver = false;
-        StandardMessages.DisplayBanner();
-
-        for (var i = 0; i < farm.PlowedFields.Count; i++)
+        private static PlowedField SelectField()
         {
-          Console.WriteLine($"{i + 1}. {farm.PlowedFields[i].Name} ({farm.PlowedFields[i].currentPlants} plants)");
-        }
-        Console.WriteLine();
-        Console.WriteLine("Which facility has the plants you want to process?");
+            List<string> options = new List<string>();
+            _facilities.ForEach(fac => options.Add($"{fac.Name} ({fac.currentPlants} plants)"));
 
-        Console.Write("> ");
-        string fieldChoice = Console.ReadLine();
-        int choice;
-        try
-        {
-          choice = Int32.Parse(fieldChoice);
-          var field = farm.PlowedFields[choice - 1];
-          return field;
-
-
+            int selection = StandardMessages.ShowMenu(options, "Which facility has the plants to be processed?");
+            if (selection == 0) return null;  // Go back.
+            else return _facilities[selection - 1];
 
 
         }
-        catch (Exception)
-        {
-          StandardMessages.ShowMessage("Invalid Input");
-        }
-      }
-      while (doOver);
-
-      //  Should never get here.
-      return null;
-    }
 
 
-    private static IGrouping<string, ISeedProducing> SelectResourceType(List<IGrouping<string, ISeedProducing>> groups)
+        private static IGrouping<string, ISeedProducing> SelectResourceType(List<IGrouping<string, ISeedProducing>> groups)
     {
       StandardMessages.DisplayBanner();
 
@@ -210,7 +183,11 @@ namespace Trestlebridge.Actions
 
         static private void UpdateFacilities(Farm farm)
         {
-            _facilities = farm.PlowedFields.Where(field => field.currentPlants > 0).ToList();
+            _facilities = farm.Facilities.Where(fac =>
+            {
+                if (fac is PlowedField pf && pf.currentPlants > 0) return true;
+                else return false;
+            }).Cast<PlowedField>().ToList();
         }
     }
 
