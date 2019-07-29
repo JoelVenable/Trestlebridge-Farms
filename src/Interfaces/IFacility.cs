@@ -9,6 +9,10 @@ namespace Trestlebridge.Interfaces
 
         string Name { get; set; }
 
+        string Type { get; }
+
+        int AvailableSpots { get; }
+
 
         void AddResource(IResource resource);
         void AddResource(List<IResource> resources);

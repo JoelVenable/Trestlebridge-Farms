@@ -37,6 +37,50 @@ namespace Trestlebridge
             return Console.ReadLine();
         }
 
+        public static int GetNumber(string message, int maximumNumber)
+        {
+            DisplayBanner();
+            Console.WriteLine(message);
+            Console.WriteLine();
+            Console.Write("> ");
+            string response = Console.ReadLine();
+            try
+            {
+                int output = Int32.Parse(response);
+                if (output <= maximumNumber && output > 0) return output;
+                else throw new Exception();
+            }
+            catch
+            {
+                ShowMessage("Invalid Selection.");
+                return GetNumber(message, maximumNumber);
+            }
+        }
+
+        public static bool GetYesOrNo(string message)
+        {
+            StandardMessages.DisplayBanner();
+            Console.WriteLine(message);
+            Console.WriteLine();
+            Console.WriteLine("Please press (Y/y) or (N/n).");
+            Console.Write("> ");
+            string response = Console.ReadLine();
+            switch (response)
+            {
+                case "Y":
+                    return true;
+                case "y":
+                    return true;
+                case "N":
+                    return false;
+                case "n":
+                    return false;
+                default:
+                    ShowMessage("Invalid selection. Please try again.");
+                    return GetYesOrNo(message);
+            }
+        }
+
         
         public static int ShowMenu(List<string> menuOptions, string messagePrompt, string quitMessage = "Go back...")
         {
@@ -50,6 +94,7 @@ namespace Trestlebridge
             Console.WriteLine($"0. {quitMessage}");
             Console.WriteLine();
             Console.WriteLine(messagePrompt);
+            Console.WriteLine();
             Console.Write("> ");
             string selection = Console.ReadLine();
 

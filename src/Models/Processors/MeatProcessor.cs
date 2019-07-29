@@ -17,13 +17,13 @@ namespace Trestlebridge.Models.Processors
 
 
 
-    double TotalMeat
-    {
-      get
-      {
-        return ChickenMeat + CowMeat + PigMeat + SheepMeat + OstrichMeat + DuckMeat;
-      }
-    }
+    //double TotalMeat
+    //{
+    //  get
+    //  {
+    //    return ChickenMeat + CowMeat + PigMeat + SheepMeat + OstrichMeat + DuckMeat;
+    //  }
+    //}
 
 
     private List<IMeatProducing> _hopper = new List<IMeatProducing>();

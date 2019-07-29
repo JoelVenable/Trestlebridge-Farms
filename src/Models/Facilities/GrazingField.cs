@@ -7,12 +7,14 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class GrazingField : IFacility, IMeatFacility, ICompostProducing, IGathering
+    public class GrazingField : IFacility, IMeatFacility, ICompostProducing, IGathering, IAnimalFacility
     {
         private int _capacity = 20;
-        private Guid _id = Guid.NewGuid();
 
         public string Name { get; set; }
+
+        public string Type { get; } = "Grazing Field";
+
 
         public int NumAnimals
         {
@@ -39,12 +41,11 @@ namespace Trestlebridge.Models.Facilities
         }
 
 
-        public int CompostAmmount
+        public int CompostAmount
         {
             get
             {
-                var goats = _animals.FindAll(animal => animal.Type == "Goat");
-                return goats.Count;
+                return _animals.Where(animal => animal.Type == "Goat").Count();
             }
         }
 

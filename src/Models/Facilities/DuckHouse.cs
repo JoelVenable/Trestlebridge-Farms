@@ -7,11 +7,13 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class DuckHouse : IFacility, IMeatFacility, IGathering
+    public class DuckHouse : IFacility, IMeatFacility, IGathering, IAnimalFacility
     {
         private int _capacity = 12;
-        private Guid _id = Guid.NewGuid();
         private List<Duck> _ducks = new List<Duck>();
+
+        public string Type { get; } = "Duck House";
+
 
         public int AvailableSpots
         {
@@ -77,7 +79,6 @@ namespace Trestlebridge.Models.Facilities
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();
-            string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
             string s = _ducks.Count > 1 ? "s" : "";
             string count = _ducks.Count > 0 ? $"({ this._ducks.Count} duck{ s})" : "";
 

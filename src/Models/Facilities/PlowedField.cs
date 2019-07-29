@@ -12,7 +12,8 @@ namespace Trestlebridge.Models.Facilities
 
         private int _plantsPerRow = 5;
 
-        private Guid _id = Guid.NewGuid();
+        public string Type { get; } = "Plowed Field";
+
 
         public string Name { get; set; }
 

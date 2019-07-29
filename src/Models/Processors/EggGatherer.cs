@@ -25,7 +25,7 @@ namespace Trestlebridge.Models.Processors
                 var capacity = _capacity;
                 foreach (IEggProducing animal in _animalsUsed)
                 {
-                    capacity = capacity - animal.EggsProduced;
+                    capacity -= animal.EggsProduced;
                 }
                 return capacity;
             }

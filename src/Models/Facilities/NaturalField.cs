@@ -12,6 +12,8 @@ namespace Trestlebridge.Models.Facilities
 
     private int _plantsPerRow = 6;
 
+        public string Type { get; } = "Natural Field";
+
     private Guid _id = Guid.NewGuid();
 
     public int currentPlants
@@ -22,7 +24,7 @@ namespace Trestlebridge.Models.Facilities
       }
     }
 
-    public int CompostAmmount
+    public int CompostAmount
     {
       get
       {

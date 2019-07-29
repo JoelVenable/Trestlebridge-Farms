@@ -8,11 +8,11 @@ using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Models.Facilities
 {
-    public class ChickenHouse : IFacility, IMeatFacility, IGathering
+    public class ChickenHouse : IFacility, IMeatFacility, IGathering, IAnimalFacility
     {
         public int _capacity = 15;
 
-        private Guid _id = Guid.NewGuid();
+        public string Type { get; } = "Chicken House";
 
         public string Name { get; set; }
 
@@ -86,7 +86,6 @@ namespace Trestlebridge.Models.Facilities
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();
-            string shortId = $"{this._id.ToString().Substring(this._id.ToString().Length - 6)}";
             string s = _chickens.Count > 1 ? "s" : "";
             string count = _chickens.Count > 0 ? $"({ this._chickens.Count} chicken{ s})" : "";
             output.Append($"Chicken House {Name} {count}\n");

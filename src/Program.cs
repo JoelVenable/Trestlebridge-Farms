@@ -8,7 +8,7 @@ namespace Trestlebridge
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             MainMenu.Run();
         }

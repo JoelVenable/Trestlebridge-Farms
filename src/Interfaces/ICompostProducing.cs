@@ -7,7 +7,7 @@ namespace Trestlebridge.Interfaces
   public interface ICompostProducing
   {
     string Name { get; set; }
-    int CompostAmmount { get; }
+    int CompostAmount { get; }
 
     void SendToComposter(int numToProcess, string type, Farm farm);
 
