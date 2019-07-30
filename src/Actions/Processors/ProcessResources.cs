@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using Trestlebridge.Interfaces;
 using Trestlebridge.Models;
-using Trestlebridge.Models.Facilities;
 
 namespace Trestlebridge.Actions
 {
@@ -20,23 +17,23 @@ namespace Trestlebridge.Actions
             options.Add("Composter");
 
             int choice = StandardMessages.ShowMenu(options, "Choose Equipment to use...");
-                switch (choice)
-                {
-                    case 1:
-                        HarvestSeeds.CollectInput(farm);
-                        break;
-                    case 2:
-                        ProcessMeat.CollectInput(farm);
-                        break;
-                    case 3:
-                        GatherEggs.CollectInput(farm);
-                        break;
-                    case 4:
-                        Compost.CollectInput(farm);
-                        break;
-                    default:
-                        break;
-                }
+            switch (choice)
+            {
+                case 1:
+                    HarvestSeeds.CollectInput(farm);
+                    break;
+                case 2:
+                    ProcessMeat.CollectInput(farm);
+                    break;
+                case 3:
+                    GatherEggs.CollectInput(farm);
+                    break;
+                case 4:
+                    Compost.CollectInput(farm);
+                    break;
+                default:
+                    break;
+            }
 
         }
     }

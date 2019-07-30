@@ -1,17 +1,14 @@
-using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using Trestlebridge.Interfaces;
 using Trestlebridge.Models;
 using Trestlebridge.Models.Facilities;
-using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Actions
 {
     public class Compost
     {
         private static List<ICompostProducing> _facilities = null;
-
-
         public static void CollectInput(Farm farm)
         {
             do
@@ -22,7 +19,7 @@ namespace Trestlebridge.Actions
                     StandardMessages.ShowMessage("No available facilities to process.");
                     return;
                 }
-                
+
                 // Select a field
                 ICompostProducing selectedField = SelectField();
 
@@ -38,6 +35,8 @@ namespace Trestlebridge.Actions
                 // Add selected resources to hopper
                 selectedField.SendToComposter(quantity, selectedGroup.Key, farm);
 
+                UpdateFacilities(farm);
+
 
             } while (AddMore(farm.Composter.Capacity));
 
@@ -51,8 +50,10 @@ namespace Trestlebridge.Actions
             var options = new List<string>();
             _facilities.ForEach(fac =>
             {
-                if (fac is GrazingField gf) options.Add($"Grazing field: {gf.Name} ({gf.CompostAmount} goats)");
-                if (fac is NaturalField nf) options.Add($"Natural Field: {nf.Name} ({nf.CompostAmount} plants)");
+                string type = "";
+                if (fac is GrazingField gf) type = "goats";
+                if (fac is NaturalField nf) type = "plants";
+                options.Add($"{fac.Type}: {fac.Name} ({fac.CompostAmount} {type})");
             });
 
             int selection = StandardMessages.ShowMenu(options, "Select a facility to process compost from...");
@@ -64,156 +65,54 @@ namespace Trestlebridge.Actions
 
         private static IGrouping<string, IComposting> SelectResourceType(List<IGrouping<string, IComposting>> groups)
         {
-            StandardMessages.DisplayBanner();
+            List<string> options = new List<string>();
 
-            for (int i = 0; i < groups.Count; i++)
+            groups.ForEach(group =>
             {
-                string s = groups[i].Count() > 1 ? "s" : "";
+                string s = group.Count() > 1 ? "s" : "";
+                string type = group.Key;
+                if (type == "Goat") options.Add($"{type}s ({group.Count()} goat{s} available)");
+                else options.Add($"{type}s ({group.Count()} row{s} available)");
+            });
 
-                if (groups[i].Key == "Goat")
-                {
-                    System.Console.WriteLine($"{i + 1}. {groups[i].Key}s ({groups[i].Count()} goat{s} available)");
-                }
-                else
-                {
-                    System.Console.WriteLine($"{i + 1}. {groups[i].Key}s ({groups[i].Count()} row{s} available)");
-                }
-            }
-            bool doOver;
-
-            do
-            {
-                doOver = false;
-                Console.WriteLine();
-                Console.WriteLine("What resource should be processed?");
-
-                Console.Write("> ");
-                string groupType = Console.ReadLine();
-                int choice;
-                try
-                {
-                    choice = Int32.Parse(groupType);
-                    return groups[choice - 1];
-                }
-                catch (Exception)
-                {
-                    doOver = true;
-                }
-            } while (doOver);
-
-            // This line will never run
-            return null;
-
+            int choice = StandardMessages.ShowMenu(options, "What resource should be processed?");
+            if (choice == 0) return null;
+            else return groups[choice - 1];
         }
 
         private static int SelectQuantity(int capacity, IGrouping<string, IComposting> group)
         {
-            int[] plantNumbers = { capacity, group.Count() };
-            int[] goatNumbers = { (capacity / 2), group.Count() };
-
-
-            int maxAvailablePlants = plantNumbers.Min();
-            int maxAvailableGoats = goatNumbers.Min();
-            StandardMessages.DisplayBanner();
-            if (group.Key == "Goat" && group.Count() > 0)
+            int quantityAvailable;
+            string type;
+            if (group.Key == "Goat")
             {
-                Console.WriteLine($"Selected {group.Key}, There are {group.Count()} goat's with compost available to process.");
-                Console.WriteLine($"Composter has {capacity / 2} of available capacity.");
+                type = "goats";
+                quantityAvailable = new int[] { (capacity / 2), group.Count() }.Min();
             }
             else
             {
-                Console.WriteLine($"Selected {group.Key} with {group.Count()} rows of plants available to process.");
-                Console.WriteLine($"Composter has an available capacity of  {capacity}.");
+                quantityAvailable = new int[] { capacity, group.Count() }.Min();
+                type = "rows of plants";
             }
 
-            bool doOver;
+            int desiredQuantity = StandardMessages.GetNumber(
+                $"Selected {group.Key}, with {quantityAvailable} {type} available to process.\n\n" +
+                "How many should be processed?",
+                quantityAvailable
+                );
 
-            do
-            {
-                doOver = false;
-                Console.WriteLine();
-                if (group.Key == "Goat" && group.Count() > 0)
-                {
-                    Console.WriteLine($"How many should be processed, maximum of {maxAvailableGoats}?");
-
-                }
-                else
-                {
-                    Console.WriteLine($"How many should be processed, maximum of {maxAvailablePlants}?");
-
-                }
-
-                Console.Write("> ");
-                string input = Console.ReadLine();
-                int quantity;
-                try
-                {
-                    quantity = Int32.Parse(input);
-                    if (group.Key == "Goat" && group.Count() > 0)
-                    {
-                        if (quantity <= maxAvailableGoats)
-                        {
-                            return quantity;
-                        }
-                        else throw new Exception();
-                    }
-                    else
-                    {
-                        if (quantity <= maxAvailablePlants)
-                        {
-                            return quantity;
-                        }
-                        else throw new Exception();
-                    }
-                }
-                catch (Exception)
-                {
-                    StandardMessages.ShowMessage("Invalid entry");
-                    doOver = true;
-                }
-            } while (doOver);
-
-            // This line will never run
-            return 0;
+            return desiredQuantity;
         }
 
         private static bool AddMore(int capacity)
         {
             if (capacity == 0) return false;
-            bool doOver = false;
+            if (_facilities.Count == 0) return false;
 
-            do
-            {
-                doOver = false;
-                StandardMessages.DisplayBanner();
-                Console.WriteLine($"Composter has space {capacity} plants and {capacity / 2} goat compost.");
-                Console.WriteLine();
-                Console.WriteLine("Would you like to add more resources?");
-                Console.WriteLine();
-                Console.WriteLine("Please press (Y/y) or (N/n).");
-                Console.Write("> ");
-                string response = Console.ReadLine();
-                switch (response)
-                {
-                    case "Y":
-                        return true;
-                    case "y":
-                        return true;
-                    case "N":
-                        return false;
-                    case "n":
-                        return false;
-                    default:
-                        StandardMessages.ShowMessage("Invalid input.  Please try again.");
-                        doOver = true;
-                        break;
-                }
-
-            } while (doOver);
-
-            // Never runs.
-            return false;
-
+            return StandardMessages.GetYesOrNo(
+                $"Composter has space {capacity} plants and {capacity / 2} goat compost.\n\n" +
+                "Would you like to add more resources?"
+                );
         }
 
         static private void UpdateFacilities(Farm farm)

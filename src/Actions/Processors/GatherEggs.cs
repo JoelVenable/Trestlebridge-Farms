@@ -1,9 +1,9 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using Trestlebridge.Interfaces;
 using Trestlebridge.Models;
 using Trestlebridge.Models.Facilities;
-using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Processors;
 
 namespace Trestlebridge.Actions
@@ -43,7 +43,8 @@ namespace Trestlebridge.Actions
         {
 
             List<string> options = new List<string>();
-            _facilities.ForEach(fac => {
+            _facilities.ForEach(fac =>
+            {
                 if (fac is ChickenHouse && eg.Capacity >= 7)
                 {
                     options.Add($"{fac.Name} ({fac.NumAnimals} chickens)");
@@ -63,7 +64,7 @@ namespace Trestlebridge.Actions
             });
 
             int choice = StandardMessages.ShowMenu(
-                options, 
+                options,
                 "Which facility has the animals you want to collect eggs from?"
                 );
             if (choice == 0) return null;
@@ -82,18 +83,11 @@ namespace Trestlebridge.Actions
                 numAnimals = field.NumOstriches;
                 eggsPerAnimal = 3;
             }
-            if (house is ChickenHouse)
-            {
-                eggsPerAnimal = 7;
-            }
-            if (house is DuckHouse)
-            {
-                eggsPerAnimal = 6;
-            }
+            if (house is ChickenHouse) eggsPerAnimal = 7;
+            if (house is DuckHouse) eggsPerAnimal = 6;
 
             double maxAvailable = Math.Floor((double)capacity / eggsPerAnimal);
-            int[] animalArray = { (int)maxAvailable, numAnimals };
-            int maxAnimals = animalArray.Min();
+            int maxAnimals = new int[] { (int)maxAvailable, numAnimals }.Min();
 
             return StandardMessages.GetNumber(
                 $"Egg Gatherer can gather eggs from {maxAnimals} animals.\n\n" +
@@ -108,7 +102,7 @@ namespace Trestlebridge.Actions
             if (capacity < 3) return false;
 
             return StandardMessages.GetYesOrNo(
-                $"Egg Gatherer has {capacity} eggs available in capacity.\n\n" + 
+                $"Egg Gatherer has {capacity} eggs available in capacity.\n\n" +
                 "Would you like to add more resources?"
                 );
         }
