@@ -4,13 +4,12 @@ using Trestlebridge.Models;
 
 namespace Trestlebridge.Interfaces
 {
-  public interface ICompostProducing
-  {
-    string Name { get; set; }
-    int CompostAmount { get; }
+    public interface ICompostProducing : IFacility
+    {
+        int CompostAmount { get; }
 
-    void SendToComposter(int numToProcess, string type, Farm farm);
+        void SendToComposter(int numToProcess, string type, Farm farm);
 
-    List<IGrouping<string, IComposting>> CreateCompostList();
-  }
+        List<IGrouping<string, IComposting>> CreateCompostList();
+    }
 }

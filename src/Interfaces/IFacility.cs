@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Trestlebridge.Models.Animals;
 
 namespace Trestlebridge.Interfaces
 {
@@ -13,8 +12,10 @@ namespace Trestlebridge.Interfaces
 
         int AvailableSpots { get; }
 
-
+        //string Export();
         void AddResource(IResource resource);
         void AddResource(List<IResource> resources);
+
+        string Export();
     }
 }
