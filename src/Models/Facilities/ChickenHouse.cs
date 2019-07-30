@@ -1,7 +1,7 @@
 using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
 
@@ -30,6 +30,18 @@ namespace Trestlebridge.Models.Facilities
             {
                 return _chickens.Count;
             }
+        }
+
+        public ChickenHouse() { }
+
+        public ChickenHouse(string name, string data)
+        {
+            Name = name;
+            List<string> chickensToAdd = data.Split(",").ToList();
+            chickensToAdd.ForEach(chk =>
+            {
+                if (chk == "Chicken") _chickens.Add(new Chicken());
+            });
         }
 
 
@@ -88,7 +100,7 @@ namespace Trestlebridge.Models.Facilities
             StringBuilder output = new StringBuilder();
             string s = _chickens.Count > 1 ? "s" : "";
             string count = _chickens.Count > 0 ? $"({ this._chickens.Count} chicken{ s})" : "";
-            output.Append($"Chicken House {Name} {count}\n");
+            output.Append($"Chicken House: {Name} {count}\n");
 
             return output.ToString();
         }
@@ -113,6 +125,13 @@ namespace Trestlebridge.Models.Facilities
                 farm.MeatProcessor.AddToHopper((IMeatProducing)selectedChicken);
                 _chickens.Remove(selectedChicken);
             }
+        }
+
+        public string Export()
+        {
+            string output = $"{Type}:{Name}:";
+            _chickens.ForEach(chicken => output += $"{chicken.Type},");
+            return output;
         }
 
     }

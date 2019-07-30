@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Trestlebridge.Data;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
 
@@ -8,9 +9,16 @@ namespace Trestlebridge.Models.Processors
 {
     public class EggGatherer
     {
-        int ChickenEggs { get; set; } = 0;
-        int DuckEggs { get; set; } = 0;
-        int OstrichEggs { get; set; } = 0;
+        private int _chickenEggs = 0;
+        private int _duckEggs = 0;
+        private int _ostrichEggs = 0;
+
+        public EggGatherer(FileHandler fh)
+        {
+            _chickenEggs = fh.GetData("chickenEggs", 0);
+            _duckEggs = fh.GetData("duckEggs", 0);
+            _ostrichEggs = fh.GetData("ostrichEggs", 0);
+        }
 
         private readonly int _capacity = 15; //eggs
 
@@ -35,7 +43,7 @@ namespace Trestlebridge.Models.Processors
         {
             get
             {
-                return ChickenEggs + DuckEggs + OstrichEggs;
+                return _chickenEggs + _duckEggs + _ostrichEggs;
             }
         }
 
@@ -77,9 +85,9 @@ namespace Trestlebridge.Models.Processors
 
             StandardMessages.ShowMessage(message);
 
-            ChickenEggs += chickenEggs;
-            DuckEggs += duckEggs;
-            OstrichEggs += ostrichEggs;
+            _chickenEggs += chickenEggs;
+            _duckEggs += duckEggs;
+            _ostrichEggs += ostrichEggs;
             _animalsUsed.Clear();
         }
 
@@ -87,19 +95,29 @@ namespace Trestlebridge.Models.Processors
         public override string ToString()
         {
             string output = "Egg gatherer has processed: \n";
-            output += BuildString(ChickenEggs, "Chicken");
-            output += BuildString(DuckEggs, "Duck");
-            output += BuildString(OstrichEggs, "Ostrich");
+            output += BuildString(_chickenEggs, "Chicken");
+            output += BuildString(_duckEggs, "Duck");
+            output += BuildString(_ostrichEggs, "Ostrich");
             output += "\n";
             return output;
         }
 
         static private string BuildString(int number, string type)
         {
+            if (number == 0) return null;
             string s = number > 1 ? "s" : "";
 
             return $"    ({number} {type} egg{s}) \n";
         }
+        public List<string> Export()
+        {
+            return new List<string>()
+            {
+                $"chickenEggs,{_chickenEggs}",
+                $"duckEggs,{_duckEggs}",
+                $"ostrichEggs,{_ostrichEggs}"
 
+            };
+        }
     }
 }

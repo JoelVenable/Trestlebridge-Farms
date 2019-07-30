@@ -1,8 +1,9 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using Trestlebridge.Interfaces;
 using System.Linq;
+using System.Text;
+using Trestlebridge.Interfaces;
+using Trestlebridge.Models.Plants;
 
 namespace Trestlebridge.Models.Facilities
 {
@@ -13,6 +14,29 @@ namespace Trestlebridge.Models.Facilities
         private int _plantsPerRow = 5;
 
         public string Type { get; } = "Plowed Field";
+
+        public PlowedField() { }
+
+        public PlowedField(string name, string data)
+        {
+            Name = name;
+            List<string> plantsToAdd = data.Split(",").ToList();
+            plantsToAdd.ForEach(plant =>
+            {
+                switch (plant)
+                {
+                    case "Sunflower":
+                        _plants.Add(new Sunflower());
+                        break;
+                    case "Sesame":
+                        _plants.Add(new Sesame());
+                        break;
+                    default:
+                        break;
+                }
+
+            });
+        }
 
 
         public string Name { get; set; }
@@ -68,7 +92,7 @@ namespace Trestlebridge.Models.Facilities
 
         }
 
-        
+
 
 
         public List<IGrouping<string, ISeedProducing>> CreateGroup()
@@ -90,7 +114,7 @@ namespace Trestlebridge.Models.Facilities
         {
             StringBuilder output = new StringBuilder();
 
-            output.Append($"Natural field {Name}");
+            output.Append($"Plowed field: {Name}");
             var plantGroups = CreateGroup();
             if (_plants.Count > 0)
             {
@@ -114,6 +138,13 @@ namespace Trestlebridge.Models.Facilities
             else output.Append("\n");
 
             return output.ToString();
+        }
+
+        public string Export()
+        {
+            string output = $"{Type}:{Name}:";
+            _plants.ForEach(plant => output += $"{plant.Type},");
+            return output;
         }
     }
 }

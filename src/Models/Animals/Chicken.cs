@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
 using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Animals
 {
     public class Chicken : IResource, IMeatProducing, IFeatherProducing, IEggProducing
     {
-        private Guid _id = Guid.NewGuid();
         private double _meatProduced = 1.7;
 
         private double _feathersProduced = .5;
@@ -34,7 +31,7 @@ namespace Trestlebridge.Models.Animals
 
         public override string ToString()
         {
-            return "The Chicken goes: Cluck!";
+            return "chicken";
         }
     }
 

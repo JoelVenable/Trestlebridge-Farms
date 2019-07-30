@@ -1,7 +1,7 @@
 using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
 
@@ -50,6 +50,40 @@ namespace Trestlebridge.Models.Facilities
         }
 
 
+        public GrazingField() { }
+
+        public GrazingField(string name, string data)
+        {
+            Name = name;
+            Console.WriteLine(data);
+            List<string> animalsToAdd = data.Split(",").ToList();
+            animalsToAdd.ForEach(animal =>
+            {
+                switch (animal)
+                {
+                    case "Cow":
+                        _animals.Add(new Cow());
+                        break;
+                    case "Goat":
+                        _animals.Add(new Goat());
+                        break;
+                    case "Ostrich":
+                        _animals.Add(new Ostrich());
+                        break;
+                    case "Pig":
+                        _animals.Add(new Pig());
+                        break;
+                    case "Sheep":
+                        _animals.Add(new Sheep());
+                        break;
+                    default:
+                        // do nothing
+                        break;
+                }
+
+            });
+        }
+
         public int AvailableSpots
         {
             get
@@ -93,7 +127,7 @@ namespace Trestlebridge.Models.Facilities
         {
             StringBuilder output = new StringBuilder();
 
-            output.Append($"Grazing field {Name}");
+            output.Append($"Grazing Field: {Name}");
             var animalGroups = CreateGroup();
             if (_animals.Count > 0)
             {
@@ -202,6 +236,13 @@ namespace Trestlebridge.Models.Facilities
             {
                 farm.Composter.AddToHopper((IComposting)animal);
             }
+        }
+
+        public string Export()
+        {
+            string output = $"{Type}:{Name}:";
+            _animals.ForEach(animal => output += $"{animal.Type},");
+            return output;
         }
     }
 }

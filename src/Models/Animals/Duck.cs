@@ -1,4 +1,3 @@
-using System;
 using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Animals
@@ -11,12 +10,16 @@ namespace Trestlebridge.Models.Animals
 
         private double _feathersProduced = 0.75;
 
-  
+
         public double GrassPerDay { get; set; } = 0.8;
 
-        public int EggsProduced { get {
+        public int EggsProduced
+        {
+            get
+            {
                 return _eggsProduced;
-            } }
+            }
+        }
 
         public string Type { get; } = "Duck";
 
@@ -42,6 +45,10 @@ namespace Trestlebridge.Models.Animals
             return 0.75;
         }
 
-  
+        public override string ToString()
+        {
+            return "duck";
+        }
+
     }
 }

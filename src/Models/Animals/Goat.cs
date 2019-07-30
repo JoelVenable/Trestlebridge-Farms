@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Trestlebridge.Interfaces;
 
 namespace Trestlebridge.Models.Animals
@@ -40,7 +39,7 @@ namespace Trestlebridge.Models.Animals
 
         public override string ToString()
         {
-            return "The Goat goes Baa!";
+            return "goat";
         }
     }
 }

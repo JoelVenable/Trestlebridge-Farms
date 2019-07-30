@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using Trestlebridge.Interfaces;
 using System.Linq;
+using Trestlebridge.Data;
+using Trestlebridge.Interfaces;
 using Trestlebridge.Models.Animals;
 using Trestlebridge.Models.Plants;
 
@@ -8,7 +9,12 @@ namespace Trestlebridge.Models.Processors
 {
     public class Composter
     {
-        double KGCompost { get; set; } = 0;
+        public Composter(FileHandler fh)
+        {
+            _kgCompost = fh.GetData("kgCompost", 0.0);
+        }
+
+        private double _kgCompost = 0;
 
         public int GoatCapacity { get; } = 4;
 
@@ -64,14 +70,22 @@ namespace Trestlebridge.Models.Processors
 
             StandardMessages.ShowMessage(message);
 
-            KGCompost += compost;
+            _kgCompost += compost;
             _hopper.Clear();
 
         }
 
         public override string ToString()
         {
-            return $"Composter has processed {KGCompost} Kgs of compost.\n";
+            return $"Composter has processed {_kgCompost} Kgs of compost.\n";
+        }
+
+        public List<string> Export()
+        {
+            return new List<string>()
+            {
+                $"kgCompost,{_kgCompost}"
+            };
         }
     }
 }

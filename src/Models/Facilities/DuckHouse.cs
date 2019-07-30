@@ -14,6 +14,18 @@ namespace Trestlebridge.Models.Facilities
 
         public string Type { get; } = "Duck House";
 
+        public DuckHouse() { }
+
+        public DuckHouse(string name, string data)
+        {
+            Name = name;
+            List<string> ducksToAdd = data.Split(",").ToList();
+            ducksToAdd.ForEach(duck =>
+            {
+                if (duck == "Duck") _ducks.Add(new Duck());
+            });
+        }
+
 
         public int AvailableSpots
         {
@@ -82,7 +94,7 @@ namespace Trestlebridge.Models.Facilities
             string s = _ducks.Count > 1 ? "s" : "";
             string count = _ducks.Count > 0 ? $"({ this._ducks.Count} duck{ s})" : "";
 
-            output.Append($"Duck House {Name} {count}\n");
+            output.Append($"Duck House: {Name} {count}\n");
 
             return output.ToString();
         }
@@ -107,6 +119,13 @@ namespace Trestlebridge.Models.Facilities
                 farm.MeatProcessor.AddToHopper((IMeatProducing)selectedAnimal);
                 _ducks.Remove(selectedAnimal);
             }
+        }
+
+        public string Export()
+        {
+            string output = $"{Type}:{Name}:";
+            _ducks.ForEach(duck => output += $"{duck.Type},");
+            return output;
         }
     }
 }
