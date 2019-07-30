@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Trestlebridge.Actions;
-using Trestlebridge.Models;
 
 namespace Trestlebridge
 {
@@ -81,7 +78,7 @@ namespace Trestlebridge
             }
         }
 
-        
+
         public static int ShowMenu(List<string> menuOptions, string messagePrompt, string quitMessage = "Go back...")
         {
             int output = 0;
