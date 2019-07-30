@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Trestlebridge.Models;
 
 namespace Trestlebridge.Actions
@@ -41,12 +40,15 @@ namespace Trestlebridge.Actions
                 menuOptions.Add("Display Farm Status Report");
 
 
+
                 int response = StandardMessages.ShowMenu(menuOptions, "Choose a FARMS option...", "Quit Program.");
 
                 if (response == 0)
                 {
                     //  Quit program.
                     Console.WriteLine("Today is a great day for farming");
+                    Trestlebridge.Save();
+
                     return;
                 }
 
@@ -63,6 +65,8 @@ namespace Trestlebridge.Actions
                         break;
                     case "Process Resources":
                         ProcessResources.CollectInput(Trestlebridge);
+                        break;
+                    default:
                         break;
 
                 };

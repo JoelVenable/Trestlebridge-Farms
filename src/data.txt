@@ -1,0 +1,16 @@
+sesameSeeds,0
+sunflowerSeeds,0
+kgCompost,0
+chickenEggs,0
+duckEggs,0
+ostrichEggs,0
+chickenMeat,0
+duckMeat,0
+cowMeat,36.5
+pigMeat,0
+sheepMeat,0
+ostrichMeat,0
+chickenFeathers,0
+duckFeathers,0
+Plowed Field:PlF1:Sesame,Sesame,Sesame,
+Grazing Field:Arq:Pig,
